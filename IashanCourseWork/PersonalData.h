@@ -10,6 +10,9 @@ protected:
 
 	  
 
+
+
+
 	PersonalData(char sex, short int age, std::string phone_number);
 
 	char getSex();
