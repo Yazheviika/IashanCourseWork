@@ -21,27 +21,9 @@
     <ClCompile Include="CurrentDate.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="PersonalData.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="DatingAgencyUserData.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="RegistrationData.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CurrentDate.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="PersonalData.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="DatingAgencyUserData.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="RegistrationData.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

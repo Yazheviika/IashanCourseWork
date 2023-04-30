@@ -128,16 +128,10 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="CurrentDate.cpp" />
-    <ClCompile Include="DatingAgencyUserData.cpp" />
-    <ClCompile Include="PersonalData.cpp" />
-    <ClCompile Include="RegistrationData.cpp" />
     <ClCompile Include="Source.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CurrentDate.h" />
-    <ClInclude Include="DatingAgencyUserData.h" />
-    <ClInclude Include="PersonalData.h" />
-    <ClInclude Include="RegistrationData.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
