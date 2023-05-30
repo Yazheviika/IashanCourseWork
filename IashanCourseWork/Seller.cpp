@@ -1,7 +1,6 @@
 #include <iostream>
 #include <string>
-#include <stdio.h>
-#include <sqlite3.h>
+#include <sstream>
 #include "Seller.h"
 
 Seller::Seller(std::string seller_name,
@@ -18,21 +17,57 @@ Seller::Seller(std::string seller_name,
 	company_name(seller_company_name),
 	sertificate_number(seller_sertificate_number) { }
 
-std::string Seller::getIndividualEnterpreneurNumber() { return individual_entrepreneur_number; }
+std::string Seller::getIndividualEnterpreneurNumber() const { return individual_entrepreneur_number; }
 
-std::string Seller::getCompanyName() { return company_name; }
+std::string Seller::getCompanyName() const { return company_name; }
 
-std::string Seller::getSertificateNumber() { return sertificate_number; }
+std::string Seller::getSertificateNumber() const { return sertificate_number; }
 
-//void Seller::registrateUser(int a)
-//{
-	/*std::string query = "INSERT INTO my_table (age, name) VALUES (21, 'Maxim'), (18, 'Vika');";
+void Seller::setIndividualEnterpreneurNumber(std::string IEN) { individual_entrepreneur_number = IEN; }
 
-	int rc = sqlite3_exec(db, query.c_str(), nullptr, nullptr, nullptr);
+void Seller::setCompanyName(std::string name) { company_name = name; }
 
-	if (rc != SQLITE_OK)
-	{
-		std::cerr << "Cannot insert data: " << sqlite3_errmsg(db) << std::endl;
-		sqlite3_close(db);
-	}*/
-//}
+void Seller::setSertificateNumber(std::string number) { sertificate_number = number; }
+
+void Seller::printAllInformation()
+{
+	std::cout << "Id: " << std::setw(28) << "" << getId() << std::endl;
+	std::cout << "Full name: " << std::setw(21) << "" << getName() << " " << getSurname() << std::endl;
+	std::cout << "Age: " << std::setw(27) << "" << getAge() << std::endl;
+	std::cout << "Individual interpreneur number: " << getIndividualEnterpreneurNumber() << std::endl;
+	std::cout << "Company name: " << std::setw(18) << "" << getCompanyName() << std::endl;
+	std::cout << "Sertificate number: " << std::setw(12) << "" << getSertificateNumber() << std::endl;
+}
+
+std::istream& operator>>(std::istream& stream, Seller& seller) {
+    std::string token;
+
+    getline(stream, token, ',');
+    seller.setId(std::stoi(token));
+
+    std::getline(stream, token, ',');
+    seller.setName(token);
+
+    std::getline(stream, token, ',');
+    seller.setSurname(token);
+
+    std::getline(stream, token, ',');
+    seller.setLogin(token);
+
+    std::getline(stream, token, ',');
+    seller.setPassword(token);
+
+    std::getline(stream, token, ',');
+    seller.setAge(std::stoi(token));
+
+    std::getline(stream, token, ',');
+    seller.setIndividualEnterpreneurNumber(token);
+
+    std::getline(stream, token, ',');
+    seller.setCompanyName(token);
+
+    std::getline(stream, token, ',');
+    seller.setSertificateNumber(token);
+
+    return stream;
+}
