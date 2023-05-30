@@ -13,18 +13,123 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Source Files\Entities">
+      <UniqueIdentifier>{f4dfb137-55f3-4d1a-bd32-f834b76ed3ee}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Entities">
+      <UniqueIdentifier>{e4630e0f-9001-41af-aee4-30045cdf6d93}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Entities\Vehicles">
+      <UniqueIdentifier>{517e7e50-e9df-4956-acb7-4d63e3015c95}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Entities\Users">
+      <UniqueIdentifier>{11f35c12-332d-448a-9eb7-da6a0523efa9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Entities\Entities">
+      <UniqueIdentifier>{8feda9a8-a259-4398-bb5d-33c3c4e74e0b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Entities\Entities\Users">
+      <UniqueIdentifier>{99cf14cf-4fc1-4640-9c56-79ca4ac8d46e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Entities\Entities\Vehicles">
+      <UniqueIdentifier>{cde47114-03d7-4856-8bad-083c0920efae}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Containers">
+      <UniqueIdentifier>{698e87a1-b7bf-4ae0-bd74-db8ed4c9c748}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="CurrentDate.cpp">
+    <ClCompile Include="User.cpp">
+      <Filter>Source Files\Entities\Entities\Users</Filter>
+    </ClCompile>
+    <ClCompile Include="Buyer.cpp">
+      <Filter>Source Files\Entities\Entities\Users</Filter>
+    </ClCompile>
+    <ClCompile Include="Seller.cpp">
+      <Filter>Source Files\Entities\Entities\Users</Filter>
+    </ClCompile>
+    <ClCompile Include="Car.cpp">
+      <Filter>Source Files\Entities\Entities\Vehicles</Filter>
+    </ClCompile>
+    <ClCompile Include="PassengerTransport.cpp">
+      <Filter>Source Files\Entities\Entities\Vehicles</Filter>
+    </ClCompile>
+    <ClCompile Include="Truck.cpp">
+      <Filter>Source Files\Entities\Entities\Vehicles</Filter>
+    </ClCompile>
+    <ClCompile Include="Vehicle.cpp">
+      <Filter>Source Files\Entities\Entities\Vehicles</Filter>
+    </ClCompile>
+    <ClCompile Include="ElectricCar.cpp">
+      <Filter>Source Files\Entities\Entities\Vehicles</Filter>
+    </ClCompile>
+    <ClCompile Include="GasolineCar.cpp">
+      <Filter>Source Files\Entities\Entities\Vehicles</Filter>
+    </ClCompile>
+    <ClCompile Include="BaseEntity.cpp">
+      <Filter>Source Files\Entities\Entities</Filter>
+    </ClCompile>
+    <ClCompile Include="Transaction.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="BuyersContainer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SellersContainer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="CurrentDate.h">
+    <ClInclude Include="BaseEntity.h">
+      <Filter>Header Files\Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="Buyer.h">
+      <Filter>Header Files\Entities\Users</Filter>
+    </ClInclude>
+    <ClInclude Include="Car.h">
+      <Filter>Header Files\Entities\Vehicles</Filter>
+    </ClInclude>
+    <ClInclude Include="ElectricCar.h">
+      <Filter>Header Files\Entities\Vehicles</Filter>
+    </ClInclude>
+    <ClInclude Include="PassengerTransport.h">
+      <Filter>Header Files\Entities\Vehicles</Filter>
+    </ClInclude>
+    <ClInclude Include="Seller.h">
+      <Filter>Header Files\Entities\Users</Filter>
+    </ClInclude>
+    <ClInclude Include="GasolineCar.h">
+      <Filter>Header Files\Entities\Vehicles</Filter>
+    </ClInclude>
+    <ClInclude Include="Truck.h">
+      <Filter>Header Files\Entities\Vehicles</Filter>
+    </ClInclude>
+    <ClInclude Include="User.h">
+      <Filter>Header Files\Entities\Users</Filter>
+    </ClInclude>
+    <ClInclude Include="Vehicle.h">
+      <Filter>Header Files\Entities\Vehicles</Filter>
+    </ClInclude>
+    <ClInclude Include="Transaction.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="VehicleTypes.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="BuyersContainer.h">
+      <Filter>Header Files\Containers</Filter>
+    </ClInclude>
+    <ClInclude Include="Iterator.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="IUsersContainer.h">
+      <Filter>Header Files\Containers</Filter>
+    </ClInclude>
+    <ClInclude Include="SellersContainer.h">
+      <Filter>Header Files\Containers</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

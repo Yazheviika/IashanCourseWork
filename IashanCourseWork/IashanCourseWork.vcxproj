@@ -129,17 +129,36 @@
   <ItemGroup>
     <ClCompile Include="BaseEntity.cpp" />
     <ClCompile Include="Buyer.cpp" />
-    <ClCompile Include="CurrentDate.cpp" />
+    <ClCompile Include="BuyersContainer.cpp" />
+    <ClCompile Include="Car.cpp" />
+    <ClCompile Include="ElectricCar.cpp" />
+    <ClCompile Include="PassengerTransport.cpp" />
+    <ClCompile Include="GasolineCar.cpp" />
     <ClCompile Include="Seller.cpp" />
+    <ClCompile Include="SellersContainer.cpp" />
     <ClCompile Include="Source.cpp" />
+    <ClCompile Include="Transaction.cpp" />
+    <ClCompile Include="Truck.cpp" />
     <ClCompile Include="User.cpp" />
+    <ClCompile Include="Vehicle.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BaseEntity.h" />
     <ClInclude Include="Buyer.h" />
-    <ClInclude Include="CurrentDate.h" />
+    <ClInclude Include="BuyersContainer.h" />
+    <ClInclude Include="Car.h" />
+    <ClInclude Include="ElectricCar.h" />
+    <ClInclude Include="IUsersContainer.h" />
+    <ClInclude Include="Iterator.h" />
+    <ClInclude Include="PassengerTransport.h" />
+    <ClInclude Include="GasolineCar.h" />
     <ClInclude Include="Seller.h" />
+    <ClInclude Include="SellersContainer.h" />
+    <ClInclude Include="Transaction.h" />
+    <ClInclude Include="Truck.h" />
     <ClInclude Include="User.h" />
+    <ClInclude Include="Vehicle.h" />
+    <ClInclude Include="VehicleTypes.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

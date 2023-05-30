@@ -1,7 +1,10 @@
 #pragma once
+#include <iostream>
+#include <string>
+#include <iomanip>
 #include "User.h"
 
-class Seller: User
+class Seller: public User
 {
 private:
 	std::string individual_entrepreneur_number;
@@ -9,21 +12,29 @@ private:
 	std::string sertificate_number;
 
 public:
-	Seller(std::string seller_name,
-		std::string seller_surname,
-		std::string seller_login,
-		std::string seller_password,
-		int seller_age,
-		std::string seller_individual_entrepreneur_number,
-		std::string seller_company_name,
-		std::string seller_sertificate_number);
+	Seller(std::string seller_name = "",
+		std::string seller_surname = "",
+		std::string seller_login = "",
+		std::string seller_password = "",
+		int seller_age = 0,
+		std::string seller_individual_entrepreneur_number = "",
+		std::string seller_company_name = "",
+		std::string seller_sertificate_number = "");
 
-	std::string getIndividualEnterpreneurNumber();
+	std::string getIndividualEnterpreneurNumber() const;
 
-	std::string getCompanyName();
+	std::string getCompanyName() const;
 
-	std::string getSertificateNumber();
+	std::string getSertificateNumber() const;
 
-	//virtual void registrateUser(int a) override;
+	void setIndividualEnterpreneurNumber(std::string IEN);
+
+	void setCompanyName(std::string name);
+
+	void setSertificateNumber(std::string number);
+
+	friend std::istream& operator>>(std::istream& is, Seller& seller);
+
+	virtual void printAllInformation() override;
 };
 

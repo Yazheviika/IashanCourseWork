@@ -1,7 +1,7 @@
 #pragma once
+#include <iostream>
+#include <string>
 #include "BaseEntity.h"
-//#include <stdio.h>
-//#include <sqlite3.h>
 
 class User: public BaseEntity
 {
@@ -19,15 +19,15 @@ public:
 		std::string user_password, 
 		int user_age);
 
-	std::string getName();
+	std::string getName() const;
 
-	std::string getSurname();
+	std::string getSurname() const;
 
-	std::string getLogin();
+	std::string getLogin() const;
 
-	std::string getPassword();
+	std::string getPassword() const;
 
-	int getAge();
+	int getAge() const;
 
 	void setName(std::string name);
 
@@ -39,9 +39,6 @@ public:
 
 	void setAge(int age);
 
-	virtual void registrateUser()
-	{
-		sqlite3* db;
-	}
+	virtual void printBriefInformation() override;
 };
 
