@@ -33,6 +33,8 @@ public:
 
 	void setSertificateNumber(std::string number);
 
+	void addIntoFile(std::string filename) const override;
+
 	friend std::istream& operator>>(std::istream& is, Seller& seller);
 
 	virtual void printAllInformation() override;

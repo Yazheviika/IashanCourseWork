@@ -69,44 +69,91 @@ void GasolineCar::addIntoFile(std::string filename) const
 	file_to_write.close();
 }
 
-std::istream& operator>>(std::istream& stream, GasolineCar& car) {
+void GasolineCar::getDataFromString(std::string string)
+{
+	std::istringstream string_as_stream(string);
 	std::string token;
 
-	std::getline(stream, token, ',');
-	car.setId(std::stoi(token));
+	std::getline(string_as_stream, token, ',');
+	setId(std::stoi(token));
 
-	std::getline(stream, token, ',');
-	car.setSellerId(std::stoi(token));
+	std::getline(string_as_stream, token, ',');
+	setSellerId(std::stoi(token));
 
-	std::getline(stream, token, ',');
-	car.setModel(token);
+	std::getline(string_as_stream, token, ',');
+	setModel(token);
 
-	std::getline(stream, token, ',');
-	car.setPriceInUAH(std::stoi(token));
+	std::getline(string_as_stream, token, ',');
+	setPriceInUAH(std::stoi(token));
 
-	std::getline(stream, token, ',');
-	car.setColor(token);
+	std::getline(string_as_stream, token, ',');
+	setColor(token);
 
-	std::getline(stream, token, ',');
-	car.setYearOfManufacture(std::stoi(token));
+	std::getline(string_as_stream, token, ',');
+	setYearOfManufacture(std::stoi(token));
 
-	std::getline(stream, token, ',');
-	car.setCondition(token);
+	std::getline(string_as_stream, token, ',');
+	setCondition(token);
 
-	std::getline(stream, token, ',');
-	car.setEngineType(token);
+	std::getline(string_as_stream, token, ',');
+	setEngineType(token);
 
-	std::getline(stream, token, ',');
-	car.setMileageInKm(std::stoi(token));
+	std::getline(string_as_stream, token, ',');
+	setMileageInKm(std::stoi(token));
 
-	std::getline(stream, token, ',');
-	car.setAdditionalFacilities(token);
+	std::getline(string_as_stream, token, ',');
+	setAdditionalFacilities(token);
 
-	std::getline(stream, token, ',');
-	car.setFuelType(token);
+	std::getline(string_as_stream, token, ',');
+	setFuelType(token);
 
-	std::getline(stream, token, ',');
-	car.setFuelMileagePer100Km(std::stoi(token));
+	std::getline(string_as_stream, token, ',');
+	setFuelMileagePer100Km(std::stoi(token));
+}
+
+std::istream& operator>>(std::istream& stream, GasolineCar& car) 
+{
+	std::cout << "Model: ";
+	std::string input_string;
+	std::getline(stream, input_string);
+	car.setModel(input_string);
+
+	std::cout << "Price in UAH: ";
+	int input_number;
+	stream >> input_number;
+	car.setPriceInUAH(input_number);
+
+	std::cout << "Color: ";
+	std::getline(stream, input_string);
+	car.setColor(input_string);
+
+	std::cout << "Year of manufacture: ";
+	stream >> input_number;
+	car.setYearOfManufacture(input_number);
+
+	std::cout << "Condition (excellent/good/ok/bad): ";
+	std::getline(stream, input_string);
+	car.setCondition(input_string);
+
+	std::cout << "Type of engine: ";
+	std::getline(stream, input_string);
+	car.setEngineType(input_string);
+
+	std::cout << "Mileage in km: ";
+	stream >> input_number;
+	car.setMileageInKm(input_number);
+
+	std::cout << "Additional facilities (max 20 symbols): ";
+	std::getline(stream, input_string);
+	car.setAdditionalFacilities(input_string);
+
+	std::cout << "Type of fuel: ";
+	std::getline(stream, input_string);
+	car.setFuelType(input_string);
+
+	std::cout << "Mileage in liters per km: ";
+	stream >> input_number;
+	car.setFuelMileagePer100Km(input_number);
 
 	return stream;
 }

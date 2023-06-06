@@ -30,6 +30,8 @@ public:
 
 	friend std::istream& operator>>(std::istream& is, Buyer& buyer);
 
+	void addIntoFile(std::string filename) const override;
+
 	virtual void printAllInformation() override;
 };
 

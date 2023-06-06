@@ -31,6 +31,28 @@ void Buyer::printAllInformation()
 	std::cout << "City: " << std::setw(10) << "" << getCity() << std::endl;
 }
 
+void Buyer::addIntoFile(std::string filename) const
+{
+	std::ofstream file_to_write(filename, std::ios::app);
+	if (!file_to_write)
+	{
+		std::cerr << "File " << filename << " couldn`t be opened for writing.\n";
+		exit(1);///////////
+	}
+
+	file_to_write << getId() << ","
+		<< getName() << ","
+		<< getSurname() << ","
+		<< getLogin() << ","
+		<< getPassword() << ","
+		<< getAge() << ","
+		<< getDrivingRecordInYears() << ","
+		<< getCity() << '\n';
+
+	file_to_write.close();
+}
+
+
 std::istream& operator>>(std::istream& stream, Buyer& buyer) {
     std::string token;
 

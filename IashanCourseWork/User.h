@@ -43,6 +43,8 @@ public:
 
 	virtual void printBriefInformation() override;
 
+	virtual void addIntoFile(std::string filename) const = 0;
+
 	void deleteFromFile(std::string filename) const;
 };
 

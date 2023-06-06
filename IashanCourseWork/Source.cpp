@@ -21,13 +21,9 @@ User* logIn(IUsersContainer* container);
 
 User* signUp(IUsersContainer* container, std::string filename);
 
-void BuyerInterface(Buyer& buyer);
+void BuyerInterface(Buyer &buyer);
 
-void SellerInterface(const BuyersContainer& buyers_repos,
-	SellersContainer& sellers_repos,
-	VehiclesContainer& vehicles_repos,
-	TransactionsContainer& transactions_repos,
-	std::string filename);
+void SellerInterface(Seller &seller);
 
 void goThroughAdvertisements(Buyer& buyer);
 
@@ -100,9 +96,7 @@ int main()
 				if (current_seller == nullptr)
 					break;
 
-				current_seller->printBriefInformation();
-				int r;
-				std::cin >> r;
+				SellerInterface(*current_seller);
 
 				break;
 			}
@@ -131,22 +125,18 @@ int main()
 				if (current_buyer == nullptr)
 					break;
 
-				current_buyer->printBriefInformation();
-				int r;
-				std::cin >> r;
+				BuyerInterface(*current_buyer);
 
 				break;
 			}
 			case 2:
 			{
 				system("cls");
-				Seller* current_buyer = dynamic_cast<Seller*>(signUp(&sellers_repos, sellers_file));
-				if (current_buyer == nullptr)
+				Seller* current_seller = dynamic_cast<Seller*>(signUp(&sellers_repos, sellers_file));
+				if (current_seller == nullptr)
 					break;
 
-				current_buyer->printBriefInformation();
-				int r;
-				std::cin >> r;
+				SellerInterface(*current_seller);
 
 				break;
 			}
@@ -330,7 +320,7 @@ User* signUp(IUsersContainer* container, std::string filename)
 	}
 }
 
-void BuyerInterface(Buyer &buyer)
+void BuyerInterface(Buyer& buyer)
 {
 	bool runInterface = true;
 
@@ -362,9 +352,10 @@ void BuyerInterface(Buyer &buyer)
 			std::cout << "Full information about your account is:\n\n";
 			buyer.printAllInformation();
 
-			std::cout << "\nEnter any sumbol to continue: ";
-			char to_continue;
-			std::cin >> to_continue;
+			std::cout << "\nPress Enter to continue.\n";
+			std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+			std::cin.clear();
+			std::cin.get();
 			break;
 		}
 		case 2:
@@ -450,8 +441,153 @@ void BuyerInterface(Buyer &buyer)
 			std::cin >> is_deleting;
 			if (is_deleting)
 			{
-				buyers_repos.removeFromContainerAndFileById(buyer.getId(), buyers_file);
-				transactions_repos.removeFromContainerAndFileByBuyerId(buyer.getId(), buyers_file);
+				int buyer_id = buyer.getId();
+				buyers_repos.removeFromContainerAndFileById(buyer_id, buyers_file);
+				transactions_repos.removeFromContainerAndFileByBuyerId(buyer_id, transactions_file);
+				return;
+			}
+			else
+				break;
+		}
+		case 0: return;
+		}
+	}
+}
+
+void SellerInterface(Seller& seller)
+{
+	bool runInterface = true;
+
+	while (runInterface)
+	{
+		system("cls");
+
+		std::cout << "Hello, Seller!\n";
+		seller.printBriefInformation();
+		std::cout << '\n';
+
+		std::cout << "Actions you can perform: \n"
+			<< "1. View full account info\n"
+			<< "2. View active advertisements\n"
+			<< "3. Add new advertisement\n"
+			<< "4. View purchase offers\n"
+			<< "5. Delete account\n"
+			<< "0. Log out\n\n"
+			<< "Your decisinon: ";
+
+		int decision;
+		std::cin >> decision;
+
+		switch (decision)
+		{
+		case 1:
+		{
+			system("cls");
+
+			std::cout <<
+				"Full information about your account is:\n\n";
+			seller.printAllInformation();
+
+			std::cout << "\nPress Enter to continue.\n";
+			std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+			std::cin.clear();
+			std::cin.get();
+			break;
+		}
+		case 2:
+		{
+			system("cls");
+
+			break;
+		}
+		case 3:
+		{
+			system("cls");
+			std::cout << "What type of vehicle do you want to sell?\n"
+				<< "1. Electric car\n"
+				<< "2. Gasoline car\n"
+				<< "3. Truck\n"
+				<< "4. Passenger transport\n"
+				<< "0. Go back\n\n"
+				<< "Your decisinon: ";
+
+			int vehicle_type;
+			std::cin >> vehicle_type;
+
+			switch (vehicle_type)
+			{
+			case 1:
+			{
+				system("cls");
+				std::cout << "Fill in the information about the car.\n\n";
+				ElectricCar electric_car;
+				std::cin >> electric_car;
+
+				electric_car.setSellerId(seller.getId());
+				vehicles_repos.addVehicleIntoContainerAndFile(std::make_shared<ElectricCar>(electric_car), vehicles_file);
+				break;
+			}
+			case 2:
+			{
+				system("cls");
+				std::cout << "Fill in the information about the car.\n\n";
+				GasolineCar gasoline_car;
+				std::cin >> gasoline_car;
+
+				gasoline_car.setSellerId(seller.getId());
+				vehicles_repos.addVehicleIntoContainerAndFile(std::make_shared<GasolineCar>(gasoline_car), vehicles_file);
+				break;
+			}
+			case 3:
+			{
+				system("cls");
+				std::cout << "Fill in the information about the car.\n\n";
+				Truck truck;
+				std::cin >> truck;
+
+				truck.setSellerId(seller.getId());
+				vehicles_repos.addVehicleIntoContainerAndFile(std::make_shared<Truck>(truck), vehicles_file);
+				break;
+			}
+			case 4:
+			{
+				system("cls");
+				std::cout << "Fill in the information about the car.\n\n";
+				PassengerTransport passenger_transport;
+				std::cin >> passenger_transport;
+
+				passenger_transport.setSellerId(seller.getId());
+				vehicles_repos.addVehicleIntoContainerAndFile(std::make_shared<PassengerTransport>(passenger_transport), vehicles_file);
+				break;
+			}
+			case 0: break;
+			}
+			break;
+		}
+		case 4:
+		{
+			system("cls");
+
+			
+			break;
+		}
+		case 5:
+		{
+			system("cls");
+
+			std::cout << "Are you sure you want to delete your account permanently?\n"
+				<< "1. Yes\n"
+				<< "0. No\n\n"
+				<< "Your decisinon: ";
+
+			int is_deleting;
+			std::cin >> is_deleting;
+			if (is_deleting)
+			{
+				int seller_id = seller.getId();
+				sellers_repos.removeFromContainerAndFileById(seller_id, sellers_file);
+				transactions_repos.removeFromContainerAndFileBySellerId(seller_id, transactions_file);
+				vehicles_repos.removeFromContainerAndFileBySellerId(seller_id, vehicles_file);
 				return;
 			}
 			else

@@ -35,13 +35,11 @@ public:
 
 	virtual void push_back(std::shared_ptr<User> user) override;
 
-	virtual void remove(int index) override;
-
 	Buyer& operator[](int index);
 
 	virtual void addUserIntoContainerAndFile(std::shared_ptr<User> user, std::string filename) override;
 
-	void removeFromContainerAndFileById(int id, std::string filename);
+	virtual void removeFromContainerAndFileById(int id, std::string filename) override;
 
 	virtual std::shared_ptr<User> findById(int id) override;
 
@@ -51,8 +49,4 @@ public:
 
 private:
 	int findMaxId();
-
-	void addIntoFile(const Buyer& buyer, std::string filename);
-
-	void removeFromFileById(int id, std::string filename);
 };

@@ -60,38 +60,76 @@ void Truck::addIntoFile(std::string filename) const
 	file_to_write.close();
 }
 
+void Truck::getDataFromString(std::string string)
+{
+	std::istringstream string_as_stream(string);
+	std::string token;
+
+	std::getline(string_as_stream, token, ',');
+	setId(std::stoi(token));
+
+	std::getline(string_as_stream, token, ',');
+	setSellerId(std::stoi(token));
+
+	std::getline(string_as_stream, token, ',');
+	setModel(token);
+
+	std::getline(string_as_stream, token, ',');
+	setPriceInUAH(std::stoi(token));
+
+	std::getline(string_as_stream, token, ',');
+	setColor(token);
+
+	std::getline(string_as_stream, token, ',');
+	setYearOfManufacture(std::stoi(token));
+
+	std::getline(string_as_stream, token, ',');
+	setCondition(token);
+
+	std::getline(string_as_stream, token, ',');
+	setEngineType(token);
+
+	std::getline(string_as_stream, token, ',');
+	setMileageInKm(std::stoi(token));
+
+	std::getline(string_as_stream, token, ',');
+	setCargoCapacityInTons(std::stoi(token));
+}
+
 std::istream& operator>>(std::istream& stream, Truck& truck) {
-    std::string token;
+	std::cout << "Model: ";
+	std::string input_string;
+	std::getline(stream, input_string);
+	truck.setModel(input_string);
 
-    std::getline(stream, token, ',');
-    truck.setId(std::stoi(token));
+	std::cout << "Price in UAH: ";
+	int input_number;
+	stream >> input_number;
+	truck.setPriceInUAH(input_number);
 
-	std::getline(stream, token, ',');
-	truck.setSellerId(std::stoi(token));
+	std::cout << "Color: ";
+	std::getline(stream, input_string);
+	truck.setColor(input_string);
 
-    std::getline(stream, token, ',');
-    truck.setModel(token);
+	std::cout << "Year of manufacture: ";
+	stream >> input_number;
+	truck.setYearOfManufacture(input_number);
 
-    std::getline(stream, token, ',');
-    truck.setPriceInUAH(std::stoi(token));
+	std::cout << "Condition (excellent/good/ok/bad): ";
+	std::getline(stream, input_string);
+	truck.setCondition(input_string);
 
-    std::getline(stream, token, ',');
-    truck.setColor(token);
+	std::cout << "Type of engine: ";
+	std::getline(stream, input_string);
+	truck.setEngineType(input_string);
 
-    std::getline(stream, token, ',');
-    truck.setYearOfManufacture(std::stoi(token));
+	std::cout << "Mileage in km: ";
+	stream >> input_number;
+	truck.setMileageInKm(input_number);
 
-    std::getline(stream, token, ',');
-    truck.setCondition(token);
+	std::cout << "Cargo capacity in tons: ";
+	stream >> input_number;
+	truck.setCargoCapacityInTons(input_number);
 
-    std::getline(stream, token, ',');
-    truck.setEngineType(token);
-
-    std::getline(stream, token, ',');
-    truck.setMileageInKm(std::stoi(token));
-
-    std::getline(stream, token, ',');
-    truck.setCargoCapacityInTons(std::stoi(token));
-
-    return stream;
+	return stream;
 }

@@ -30,6 +30,8 @@ public:
 
 	void addIntoFile(std::string filename) const override;
 
+	void getDataFromString(std::string string) override;
+
 	friend std::istream& operator>>(std::istream& stream, PassengerTransport& passenger_transport);
 };
 

@@ -16,9 +16,9 @@ public:
 
 	virtual void push_back(std::shared_ptr<User> user) = 0;
 
-	virtual void remove(int index) = 0;
-
 	virtual void addUserIntoContainerAndFile(std::shared_ptr<User> user, std::string filename) = 0;
+
+	virtual void removeFromContainerAndFileById(int id, std::string filename) = 0;
 
 	virtual std::shared_ptr<User> findById(int id) = 0;
 

@@ -209,7 +209,7 @@ void TransactionsContainer::removeFromContainerAndFileBySellerId(int seller_id, 
 	int new_index = 0;
 	for (auto iter = begin(); iter != end(); iter++)
 	{
-		if ((*iter)->getBuyerId() != seller_id)
+		if ((*iter)->getSellerId() != seller_id)
 		{
 			new_data[new_index] = std::make_shared<Transaction>(**iter);
 			new_index++;

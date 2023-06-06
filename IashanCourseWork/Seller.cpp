@@ -29,6 +29,28 @@ void Seller::setCompanyName(std::string name) { company_name = name; }
 
 void Seller::setSertificateNumber(std::string number) { sertificate_number = number; }
 
+void Seller::addIntoFile(std::string filename) const
+{
+	std::ofstream file_to_write(filename, std::ios::app);
+	if (!file_to_write)
+	{
+		std::cerr << "File " << filename << " couldn`t be opened for writing.\n";
+		exit(1);///////////
+	}
+
+	file_to_write << getId() << ","
+		<< getName() << ","
+		<< getSurname() << ","
+		<< getLogin() << ","
+		<< getPassword() << ","
+		<< getAge() << ","
+		<< getIndividualEnterpreneurNumber() << ","
+		<< getCompanyName() << ','
+		<< getSertificateNumber() << '\n';
+
+	file_to_write.close();
+}
+
 void Seller::printAllInformation()
 {
 	std::cout << "Id: " << std::setw(28) << "" << getId() << std::endl;

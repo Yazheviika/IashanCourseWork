@@ -69,6 +69,8 @@ public:
 
 	virtual void addIntoFile(std::string filename) const = 0;
 
+	virtual void getDataFromString(std::string string) = 0;
+
 	void deleteFromFile(std::string filename) const;
 };
 

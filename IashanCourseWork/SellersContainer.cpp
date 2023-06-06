@@ -41,7 +41,7 @@ SellersContainer::SellersContainer(std::string filename)
 		std::istringstream stringAsStream(line);
 
 		Seller seller;
-		stringAsStream >> seller;
+		stringAsStream >> seller;////////////////////////////
 
 		data[index] = std::make_shared<Seller>(seller);
 		index++;
@@ -102,41 +102,6 @@ void SellersContainer::push_back(std::shared_ptr<User> user)
 	data[length - 1] = std::make_shared<Seller>(*seller);
 }
 
-void SellersContainer::remove(int index)
-{
-	assert(index >= 0 && index < length);
-
-	if (length == 1)
-	{
-		erase();
-		return;
-	}
-
-	std::shared_ptr<Seller>* new_data = new std::shared_ptr<Seller>[length - 1];
-
-	auto iter = begin();
-	auto new_iter = new_data;
-
-	for (int i = 0; i < index; i++)
-	{
-		*new_iter = *iter;
-		++iter;
-		++new_iter;
-	}
-
-	for (int i = index + 1; i < length; i++)
-	{
-		*new_iter = *iter;
-		++iter;
-		++new_iter;
-	}
-
-	delete[] data;
-
-	--length;
-	data = new_data;
-}
-
 Seller& SellersContainer::operator[](int index)
 {
 	assert(index >= 0 && index < length);
@@ -152,7 +117,35 @@ void SellersContainer::addUserIntoContainerAndFile(std::shared_ptr<User> user, s
 	else
 		seller->setId(1);
 	push_back(seller);
-	addIntoFile(*seller, filename);
+	seller->addIntoFile(filename);
+}
+
+void SellersContainer::removeFromContainerAndFileById(int id, std::string filename)
+{
+	if (length == 1)
+	{
+		erase();
+		return;
+	}
+
+	std::shared_ptr<Seller>* new_data = new std::shared_ptr<Seller>[length - 1];
+
+	int new_index = 0;
+	for (auto iter = begin(); iter != end(); iter++)
+	{
+		if ((*iter)->getId() != id)
+		{
+			new_data[new_index] = std::make_shared<Seller>(**iter);
+			new_index++;
+		}
+		else
+			(*iter)->deleteFromFile(filename);
+	}
+
+	delete[] data;
+
+	--length;
+	data = new_data;
 }
 
 std::shared_ptr<User> SellersContainer::findById(int id)
@@ -202,79 +195,3 @@ int SellersContainer::findMaxId()
 	return maxId;
 }
 
-void SellersContainer::addIntoFile(const Seller& seller, std::string filename)
-{
-	std::ofstream file_to_write(filename, std::ios::app);
-	if (!file_to_write)
-	{
-		std::cerr << "File " << filename << " couldn`t be opened for writing.\n";
-		exit(1);///////////
-	}
-
-	file_to_write << seller.getId() << ","
-		<< seller.getName() << ","
-		<< seller.getSurname() << ","
-		<< seller.getLogin() << ","
-		<< seller.getPassword() << ","
-		<< seller.getAge() << ","
-		<< seller.getIndividualEnterpreneurNumber() << ","
-		<< seller.getCompanyName() << ','
-		<< seller.getSertificateNumber() <<'\n';
-
-	file_to_write.close();
-}
-
-void SellersContainer::removeFromFileById(int id, std::string filename)
-{
-	std::ifstream file_to_read(filename);
-	std::ofstream temporary_file("Files/temp.txt");
-
-	if (!file_to_read)
-	{
-		std::cerr << "File " << filename << " couldn`t be opened for reading.\n";
-		exit(1);///////////
-	}
-	if (!temporary_file)
-	{
-		std::cerr << "Temporary file for copying data couldn`t be created.\n";
-		exit(1);////////////
-	}
-
-	std::string seller;
-	while (getline(file_to_read, seller))
-	{
-		std::istringstream stringAsStream(seller);
-		std::string curr_id;
-		getline(stringAsStream, curr_id, ',');
-
-		if (std::stoi(curr_id) != id)
-			temporary_file << seller << '\n';
-	}
-
-	file_to_read.close();
-	temporary_file.close();
-
-	std::ofstream file_to_copy(filename, std::ios::trunc);
-	std::ifstream file_to_copy_from("Files/temp.txt");
-
-	if (!file_to_copy)
-	{
-		std::cerr << "File " << filename << " couldn`t be opened for writing.\n";
-		exit(1);///////////
-	}
-	if (!file_to_copy_from)
-	{
-		std::cerr << "Temporary file for copying data couldn`t be created.\n";
-		exit(1);////////////
-	}
-
-	while (getline(file_to_copy_from, seller))
-		file_to_copy << seller << '\n';
-
-	file_to_copy.close();
-	file_to_copy_from.close();
-
-	int Status = std::remove("Files/temp.txt");
-	if (Status != 0)
-		std::cerr << "Temporary file couldn`t be removed.\n";
-}

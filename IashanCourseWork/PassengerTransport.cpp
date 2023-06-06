@@ -61,39 +61,77 @@ void PassengerTransport::addIntoFile(std::string filename) const
 	file_to_write.close();
 }
 
+void PassengerTransport::getDataFromString(std::string string)
+{
+	std::istringstream string_as_stream(string);
+	std::string token;
+
+	std::getline(string_as_stream, token, ',');
+	setId(std::stoi(token));
+
+	std::getline(string_as_stream, token, ',');
+	setSellerId(std::stoi(token));
+
+	std::getline(string_as_stream, token, ',');
+	setModel(token);
+
+	std::getline(string_as_stream, token, ',');
+	setPriceInUAH(std::stoi(token));
+
+	std::getline(string_as_stream, token, ',');
+	setColor(token);
+
+	std::getline(string_as_stream, token, ',');
+	setYearOfManufacture(std::stoi(token));
+
+	std::getline(string_as_stream, token, ',');
+	setCondition(token);
+
+	std::getline(string_as_stream, token, ',');
+	setEngineType(token);
+
+	std::getline(string_as_stream, token, ',');
+	setMileageInKm(std::stoi(token));
+
+	std::getline(string_as_stream, token, ',');
+	setPassengerCapacity(std::stoi(token));
+}
+
 std::istream& operator>>(std::istream& stream, PassengerTransport& passenger_transport)
 {
-    std::string token;
+	std::cout << "Model: ";
+	std::string input_string;
+	std::getline(stream, input_string);
+	passenger_transport.setModel(input_string);
 
-    std::getline(stream, token, ',');
-    passenger_transport.setId(std::stoi(token));
+	std::cout << "Price in UAH: ";
+	int input_number;
+	stream >> input_number;
+	passenger_transport.setPriceInUAH(input_number);
 
-	std::getline(stream, token, ',');
-	passenger_transport.setSellerId(std::stoi(token));
+	std::cout << "Color: ";
+	std::getline(stream, input_string);
+	passenger_transport.setColor(input_string);
 
-    std::getline(stream, token, ',');
-    passenger_transport.setModel(token);
+	std::cout << "Year of manufacture: ";
+	stream >> input_number;
+	passenger_transport.setYearOfManufacture(input_number);
 
-    std::getline(stream, token, ',');
-    passenger_transport.setPriceInUAH(std::stoi(token));
+	std::cout << "Condition (excellent/good/ok/bad): ";
+	std::getline(stream, input_string);
+	passenger_transport.setCondition(input_string);
 
-    std::getline(stream, token, ',');
-    passenger_transport.setColor(token);
+	std::cout << "Type of engine: ";
+	std::getline(stream, input_string);
+	passenger_transport.setEngineType(input_string);
 
-    std::getline(stream, token, ',');
-    passenger_transport.setYearOfManufacture(std::stoi(token));
+	std::cout << "Mileage in km: ";
+	stream >> input_number;
+	passenger_transport.setMileageInKm(input_number);
 
-    std::getline(stream, token, ',');
-    passenger_transport.setCondition(token);
+	std::cout << "Passenger capacity: ";
+	stream >> input_number;
+	passenger_transport.setPassengerCapacity(input_number);
 
-    std::getline(stream, token, ',');
-    passenger_transport.setEngineType(token);
-
-    std::getline(stream, token, ',');
-    passenger_transport.setMileageInKm(std::stoi(token));
-
-    std::getline(stream, token, ',');
-    passenger_transport.setPassengerCapacity(std::stoi(token));
-
-    return stream;
+	return stream;
 }

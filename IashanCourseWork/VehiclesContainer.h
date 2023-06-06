@@ -31,7 +31,7 @@ public:
 
 	~VehiclesContainer();
 
-	int getLength();
+	int getLength() const;
 
 	Iterator<std::shared_ptr<Vehicle>> begin() const;
 
@@ -45,18 +45,21 @@ public:
 
 	void removeFromContainerAndFileById(int id, std::string filename);
 
+	void removeFromContainerAndFileBySellerId(int seller_id, std::string filename);
+
 	Vehicle& operator[](int index);
 
 	void addVehicleIntoContainerAndFile(std::shared_ptr<Vehicle> vehicle, std::string filename);
 
-	std::shared_ptr<Vehicle> findById(int id);
+	std::shared_ptr<Vehicle> findById(int id) const;
 
 	VehiclesContainer findByModel(std::string model) const;
 
 	VehiclesContainer findByPrice(int min_price, int max_price) const;
 
 	VehiclesContainer findByType(VehicleTypes type) const;
+
 private:
-	int findMaxId();
+	int findMaxId() const;
 };
 

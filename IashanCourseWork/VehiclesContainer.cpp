@@ -48,13 +48,13 @@ VehiclesContainer::VehiclesContainer(std::string filename)
 		char vehicle_type = token[0];
 
 		getline(stringAsStream, token);
-		stringAsStream = std::istringstream(token);
+
 		switch (vehicle_type)
 		{
 		case 'E':
 		{
 			ElectricCar vehicle;
-			stringAsStream >> vehicle;
+			vehicle.getDataFromString(token);
 			data[index] = std::make_shared<ElectricCar>(vehicle);
 
 			break;
@@ -62,7 +62,7 @@ VehiclesContainer::VehiclesContainer(std::string filename)
 		case 'G':
 		{
 			GasolineCar vehicle;
-			stringAsStream >> vehicle;
+			vehicle.getDataFromString(token);
 			data[index] = std::make_shared<GasolineCar>(vehicle);
 
 			break;
@@ -70,7 +70,7 @@ VehiclesContainer::VehiclesContainer(std::string filename)
 		case 'P':
 		{
 			PassengerTransport vehicle;
-			stringAsStream >> vehicle;
+			vehicle.getDataFromString(token);
 			data[index] = std::make_shared<PassengerTransport>(vehicle);
 
 			break;
@@ -78,7 +78,7 @@ VehiclesContainer::VehiclesContainer(std::string filename)
 		case 'T':
 		{
 			Truck vehicle;
-			stringAsStream >> vehicle;
+			vehicle.getDataFromString(token);
 			data[index] = std::make_shared<Truck>(vehicle);
 
 			break;
@@ -138,7 +138,7 @@ VehiclesContainer& VehiclesContainer::operator=(const VehiclesContainer& other)
 	return *this;
 }
 
-int VehiclesContainer::getLength() { return length; }
+int VehiclesContainer::getLength() const { return length; }
 
 Iterator<std::shared_ptr<Vehicle>> VehiclesContainer::begin() const { return data; }
 
@@ -213,6 +213,34 @@ void VehiclesContainer::removeFromContainerAndFileById(int id, std::string filen
 	data = new_data;
 }
 
+void VehiclesContainer::removeFromContainerAndFileBySellerId(int seller_id, std::string filename)
+{
+	if (length == 1)
+	{
+		erase();
+		return;
+	}
+
+	std::shared_ptr<Vehicle>* new_data = new std::shared_ptr<Vehicle>[length - 1];
+
+	int new_index = 0;
+	for (int i = 0; i < length; i++) {
+		if (data[i]->getSellerId() != seller_id) {
+			data[i]->clone(new_data[new_index]);
+			new_index++;
+		}
+		else
+		{
+			data[i]->deleteFromFile(filename);
+		}
+	}
+
+	delete[] data;
+
+	--length;
+	data = new_data;
+}
+
 Vehicle& VehiclesContainer::operator[](int index)
 {
 	assert(index >= 0 && index < length);
@@ -229,7 +257,7 @@ void VehiclesContainer::addVehicleIntoContainerAndFile(std::shared_ptr<Vehicle> 
 	vehicle->addIntoFile(filename);
 }
 
-std::shared_ptr<Vehicle> VehiclesContainer::findById(int id)
+std::shared_ptr<Vehicle> VehiclesContainer::findById(int id) const
 {
 	for (auto iter = begin(); iter != end(); iter++)
 	{
@@ -243,7 +271,6 @@ std::shared_ptr<Vehicle> VehiclesContainer::findById(int id)
 	}
 	return nullptr;
 }
-
 
 VehiclesContainer VehiclesContainer::findByModel(std::string model) const
 {
@@ -325,7 +352,7 @@ VehiclesContainer VehiclesContainer::findByType(VehicleTypes type) const
 	return subcontainer;
 }
 
-int VehiclesContainer::findMaxId()
+int VehiclesContainer::findMaxId() const
 {
 	int maxId = 1;
 	for (auto iter = begin(); iter != end(); iter++)
