@@ -37,6 +37,9 @@
     <Filter Include="Header Files\Containers">
       <UniqueIdentifier>{698e87a1-b7bf-4ae0-bd74-db8ed4c9c748}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Containers">
+      <UniqueIdentifier>{ba38f27c-ae5b-4ecd-bbe0-6c48e161bcb5}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source.cpp">
@@ -76,10 +79,16 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="BuyersContainer.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Containers</Filter>
     </ClCompile>
     <ClCompile Include="SellersContainer.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Containers</Filter>
+    </ClCompile>
+    <ClCompile Include="TransactionsContainer.cpp">
+      <Filter>Source Files\Containers</Filter>
+    </ClCompile>
+    <ClCompile Include="VehiclesContainer.cpp">
+      <Filter>Source Files\Containers</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -130,6 +139,15 @@
     </ClInclude>
     <ClInclude Include="SellersContainer.h">
       <Filter>Header Files\Containers</Filter>
+    </ClInclude>
+    <ClInclude Include="TransactionsContainer.h">
+      <Filter>Header Files\Containers</Filter>
+    </ClInclude>
+    <ClInclude Include="VehiclesContainer.h">
+      <Filter>Header Files\Containers</Filter>
+    </ClInclude>
+    <ClInclude Include="TransactionStatus.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

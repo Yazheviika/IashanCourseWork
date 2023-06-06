@@ -2,6 +2,7 @@
 #include <iostream>
 #include <iomanip>
 #include <string>
+#include <fstream>
 #include "Car.h"
 
 class ElectricCar : public Car
@@ -18,8 +19,7 @@ public:
 		int car_price = 0,
 		int car_year_of_manufacture = 0,
 		int car_mileage_in_km = 0,
-		bool car_body = 0,
-		std::string car_aditional_facilities = "",
+		std::string car_additional_facilities = "",
 		std::string car_battery_type = "",
 		int car_power_in_watts = 0);
 
@@ -32,5 +32,11 @@ public:
 	void setBatteryType(std::string type);
 	
 	virtual void printAllInformation() override;
+
+	void clone(std::shared_ptr<Vehicle>& newVehicle) const override;
+
+	void addIntoFile(std::string filename) const override;
+
+	friend std::istream& operator>>(std::istream& stream, ElectricCar& car);
 };
 

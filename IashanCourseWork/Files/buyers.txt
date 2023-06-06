@@ -1,9 +1,5 @@
-0,max,bbb2,abab,dsfa,32,33,efsd
-1,john,erfew,dfa,dsfa,32,33,efsd
-3,pipi,erfew,dfsssa,dsfa,32,33,efsd
-34,kaka,erfew,dddd,dsfa,32,33,efsd
-0,saimon,erfew,daaafa,dsfa,32,33,efsd
-0,olya,erfew,dfa,dasdsfa,32,33,efsd
-35,maxim,dunaev,opao,fdf,21,0,odessa
-36,df,dfg,fg,rrr,23,23,gfg
-43,rrr,gg,erre,erer,34,3,rre
+1,Oleh,Hrytsenko,oleh_hrytsenko,oleh123,35,10,Kyiv
+2,Maryna,Kovalenko,maryna_kovalenko,maryna456,28,5,Lviv
+3,Mykhailo,Sviderskyi,mykhailo_sviderskyi,mykhailo789,42,20,Odesa
+4,Iryna,Petrova,iryna_petrova,iryna321,31,8,Kharkiv
+5,Andrii,Melnychuk,andrii_melnychuk,andrii123,39,15,Dnipro

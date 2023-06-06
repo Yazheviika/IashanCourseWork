@@ -138,9 +138,11 @@
     <ClCompile Include="SellersContainer.cpp" />
     <ClCompile Include="Source.cpp" />
     <ClCompile Include="Transaction.cpp" />
+    <ClCompile Include="TransactionsContainer.cpp" />
     <ClCompile Include="Truck.cpp" />
     <ClCompile Include="User.cpp" />
     <ClCompile Include="Vehicle.cpp" />
+    <ClCompile Include="VehiclesContainer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BaseEntity.h" />
@@ -155,9 +157,12 @@
     <ClInclude Include="Seller.h" />
     <ClInclude Include="SellersContainer.h" />
     <ClInclude Include="Transaction.h" />
+    <ClInclude Include="TransactionsContainer.h" />
+    <ClInclude Include="TransactionStatus.h" />
     <ClInclude Include="Truck.h" />
     <ClInclude Include="User.h" />
     <ClInclude Include="Vehicle.h" />
+    <ClInclude Include="VehiclesContainer.h" />
     <ClInclude Include="VehicleTypes.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

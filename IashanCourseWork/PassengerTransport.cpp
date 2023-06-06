@@ -27,9 +27,73 @@ void PassengerTransport::setPassengerCapacity(int passenger_capacity)
 
 void PassengerTransport::printAllInformation()
 {
-	std::cout << "Electric car:\n\n";
+	std::cout << "Passenger transport:\n\n";
 
 	Vehicle::printAllInformation();
 
 	std::cout << "Capacity: " << std::setw(11) << "" << getPassengerCapacity() << " passengers" << std::endl;
+}
+
+void PassengerTransport::clone(std::shared_ptr<Vehicle>& newVehicle) const {
+	newVehicle = std::make_shared<PassengerTransport>(*this);
+}
+
+void PassengerTransport::addIntoFile(std::string filename) const
+{
+	std::ofstream file_to_write(filename, std::ios::app);
+	if (!file_to_write)
+	{
+		std::cerr << "File " << filename << " couldn`t be opened for writing.\n";
+		exit(1);///////////
+	}
+	file_to_write << "P:"
+		<< getId() << ','
+		<< getSellerId() << ','
+		<< getModel() << ','
+		<< getPriceInUAH() << ','
+		<< getColor() << ','
+		<< getYearOfManufacture() << ','
+		<< getCondition() << ','
+		<< getEngineType() << ','
+		<< getMileageInKm() << ','
+		<< getPassengerCapacity() << '\n';
+
+	file_to_write.close();
+}
+
+std::istream& operator>>(std::istream& stream, PassengerTransport& passenger_transport)
+{
+    std::string token;
+
+    std::getline(stream, token, ',');
+    passenger_transport.setId(std::stoi(token));
+
+	std::getline(stream, token, ',');
+	passenger_transport.setSellerId(std::stoi(token));
+
+    std::getline(stream, token, ',');
+    passenger_transport.setModel(token);
+
+    std::getline(stream, token, ',');
+    passenger_transport.setPriceInUAH(std::stoi(token));
+
+    std::getline(stream, token, ',');
+    passenger_transport.setColor(token);
+
+    std::getline(stream, token, ',');
+    passenger_transport.setYearOfManufacture(std::stoi(token));
+
+    std::getline(stream, token, ',');
+    passenger_transport.setCondition(token);
+
+    std::getline(stream, token, ',');
+    passenger_transport.setEngineType(token);
+
+    std::getline(stream, token, ',');
+    passenger_transport.setMileageInKm(std::stoi(token));
+
+    std::getline(stream, token, ',');
+    passenger_transport.setPassengerCapacity(std::stoi(token));
+
+    return stream;
 }

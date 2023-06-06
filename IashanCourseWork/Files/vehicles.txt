@@ -1,0 +1,10 @@
+E:1,1,Tesla Model S,100000,white,2020,excellent,electric,500,50000
+G:2,3,Toyota Camry,50000,silver,2018,good,petrol,12.5
+T:3,4,Volvo FH16,250000,blue,2015,ok,diesel,200,40000
+P:4,4,Mercedes-Benz Sprinter,80000,black,2017,good,diesel,9,16
+E:5,5,Nissan Leaf,60000,red,2019,excellent,electric,400,35000
+G:6,1,Honda Civic,30000,gray,2016,ok,petrol,10.5
+T:7,4,Scania R620,400000,yellow,2014,ok,diesel,300,50000
+P:8,2,Ford Transit,70000,white,2015,good,diesel,8,12
+E:9,2,BMW i3,75000,blue,2017,good,electric,350,30000
+G:10,5,Ford Mustang,90000,black,2018,excellent,petrol,15

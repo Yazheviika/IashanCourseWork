@@ -274,7 +274,7 @@ void SellersContainer::removeFromFileById(int id, std::string filename)
 	file_to_copy.close();
 	file_to_copy_from.close();
 
-	int status = std::remove("Files/temp.txt");
-	if (status != 0)
+	int Status = std::remove("Files/temp.txt");
+	if (Status != 0)
 		std::cerr << "Temporary file couldn`t be removed.\n";
 }

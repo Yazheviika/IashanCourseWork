@@ -1,5 +1,9 @@
 #pragma once
 #include "Vehicle.h"
+#include <iostream>
+#include <string>
+#include <fstream>
+#include <iomanip>
 
 class PassengerTransport : public Vehicle
 {
@@ -21,5 +25,11 @@ public:
 	void setPassengerCapacity(int passenger_capacity);
 
 	virtual void printAllInformation() override;
+
+	void clone(std::shared_ptr<Vehicle>& newVehicle) const override;
+
+	void addIntoFile(std::string filename) const override;
+
+	friend std::istream& operator>>(std::istream& stream, PassengerTransport& passenger_transport);
 };
 

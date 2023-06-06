@@ -114,22 +114,13 @@ void BuyersContainer::remove(int index)
 
 	std::shared_ptr<Buyer>* new_data = new std::shared_ptr<Buyer>[length - 1];
 
-	auto iter = begin();
-	auto new_iter = new_data;
-
-	for (int i = 0; i < index; i++)
-	{
-		*new_iter = *iter;
-		++iter;
-		++new_iter;
-	}
-
-	for (int i = index + 1; i < length; i++)
-	{
-		*new_iter = *iter;
-		++iter;
-		++new_iter;
-	}
+	int new_index = 0;
+    for (int i = 0; i < length; i++) {
+        if (i != index) {
+			new_data[new_index] = data[i];
+            new_index++;
+        }
+    }
 
 	delete[] data;
 
@@ -154,6 +145,35 @@ void BuyersContainer::addUserIntoContainerAndFile(std::shared_ptr<User> user, st
 	push_back(buyer);
 	addIntoFile(*buyer, filename);
 }
+
+void BuyersContainer::removeFromContainerAndFileById(int id, std::string filename)
+{
+	if (length == 1)
+	{
+		erase();
+		return;
+	}
+
+	std::shared_ptr<Buyer>* new_data = new std::shared_ptr<Buyer>[length - 1];
+
+	int new_index = 0;
+	for (auto iter = begin(); iter != end(); iter++)
+	{
+		if ((*iter)->getId() != id)
+		{
+			new_data[new_index] = std::make_shared<Buyer>(**iter);
+			new_index++;
+		}
+		else
+			(*iter)->deleteFromFile(filename);
+	}
+
+	delete[] data;
+
+	--length;
+	data = new_data;
+}
+
 
 std::shared_ptr<User> BuyersContainer::findById(int id)
 {
@@ -273,7 +293,7 @@ void BuyersContainer::removeFromFileById(int id, std::string filename)
 	file_to_copy.close();
 	file_to_copy_from.close();
 
-	int status = std::remove("Files/temp.txt");
-	if (status != 0)
+	int Status = std::remove("Files/temp.txt");
+	if (Status != 0)
 		std::cerr << "Temporary file couldn`t be removed.\n";
 }

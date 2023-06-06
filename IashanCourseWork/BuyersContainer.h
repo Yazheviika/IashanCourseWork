@@ -41,6 +41,8 @@ public:
 
 	virtual void addUserIntoContainerAndFile(std::shared_ptr<User> user, std::string filename) override;
 
+	void removeFromContainerAndFileById(int id, std::string filename);
+
 	virtual std::shared_ptr<User> findById(int id) override;
 
 	virtual std::shared_ptr<User> findByLogin(std::string login) override;

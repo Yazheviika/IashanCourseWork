@@ -1,31 +1,33 @@
 #pragma once
+#include <iostream>
+#include <string>
+#include <sstream>
+#include <fstream>
+#include "TransactionStatus.h"
 #include "Buyer.h"
 #include "Seller.h"
 #include "Vehicle.h"
 
 class Transaction
 {
-public:
-	enum class Status { Active, Pending,  Sold };
-
 private:
 	int buyer_id;
 	int seller_id;
 	int vehicle_id;
-	Status status;
+	TransactionStatus status;
 
 public:
-	Transaction(int buyer_id = 0, int seller_id = 0, int vehicle_id = 0, Status status = Status::Active);
+	Transaction(int buyer_id = 0, int seller_id = 0, int vehicle_id = 0, int Status = 1);
 
-	Transaction(const Buyer &buyer, const Seller &seller, const Vehicle &vehicle, Status status = Status::Active);
+	Transaction(const Buyer &buyer, const Seller &seller, const Vehicle &vehicle, TransactionStatus status = TransactionStatus::Pending);
 
-	int getBuyerId();
+	int getBuyerId() const;
 
-	int getSellerId();
+	int getSellerId() const;
 
-	int getVehicleId();
+	int getVehicleId() const;
 
-	Status getStatus();
+	TransactionStatus getStatus() const;
 
 	void setBuyerId(int id);
 
@@ -33,6 +35,14 @@ public:
 
 	void setVehicleId(int id);
 
-	void setStatus(Status status);
+	void setStatus(TransactionStatus Status);
+
+	void addIntoFile(std::string filename) const;
+
+	void deleteFromFile(std::string filename) const;
+
+	void readDataFromFileString(std::string string_to_tokenize);
+
+	friend std::ostream& operator<<(std::ostream& out, const Transaction& transaction);
 };
 

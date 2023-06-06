@@ -4,8 +4,7 @@
 class Car : public Vehicle
 {
 private:
-	bool body;
-	std::string aditional_facilities;
+	std::string additional_facilities;
 
 public:
 	Car(std::string car_model,
@@ -15,15 +14,10 @@ public:
 		int car_price,
 		int car_year_of_manufacture,
 		int car_mileage_in_km,
-		bool car_body,
-		std::string car_aditional_facilities);
+		std::string car_additional_facilities);
 
-	bool getBody() const;
+	std::string getAdditionalFacilities() const;
 
-	std::string getAditionalFacilities() const;
-
-	void setBody(bool vody);
-
-	void setAditionalFacilities(std::string aditional_facility);
+	void setAdditionalFacilities(std::string additional_facility);
 };
 
