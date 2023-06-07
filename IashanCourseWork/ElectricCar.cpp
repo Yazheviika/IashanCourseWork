@@ -115,6 +115,7 @@ std::istream& operator>>(std::istream& stream, ElectricCar& car)
 {
 	std::cout << "Model: ";
 	std::string input_string;
+	std::cin.ignore();
 	std::getline(stream, input_string);
 	car.setModel(input_string);
 
@@ -124,6 +125,7 @@ std::istream& operator>>(std::istream& stream, ElectricCar& car)
 	car.setPriceInUAH(input_number);
 
 	std::cout << "Color: ";
+	std::cin.ignore();
 	std::getline(stream, input_string);
 	car.setColor(input_string);
 
@@ -132,6 +134,7 @@ std::istream& operator>>(std::istream& stream, ElectricCar& car)
 	car.setYearOfManufacture(input_number);
 
 	std::cout << "Condition (excellent/good/ok/bad): ";
+	std::cin.ignore();
 	std::getline(stream, input_string);
 	car.setCondition(input_string);
 
@@ -144,6 +147,7 @@ std::istream& operator>>(std::istream& stream, ElectricCar& car)
 	car.setMileageInKm(input_number);
 
 	std::cout << "Additional facilities (max 20 symbols): ";
+	std::cin.ignore();
 	std::getline(stream, input_string);
 	car.setAdditionalFacilities(input_string);
 

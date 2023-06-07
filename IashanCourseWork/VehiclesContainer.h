@@ -59,6 +59,8 @@ public:
 
 	VehiclesContainer findByType(VehicleTypes type) const;
 
+	VehiclesContainer findBySellerId(int seller_id) const;
+
 private:
 	int findMaxId() const;
 };

@@ -17,9 +17,9 @@
 #include "Buyer.h"
 #include "Seller.h"
 
-User* logIn(IUsersContainer* container);
+std::shared_ptr<User> logIn(IUsersContainer* container);
 
-User* signUp(IUsersContainer* container, std::string filename);
+std::shared_ptr<User> signUp(IUsersContainer* container, std::string filename);
 
 void BuyerInterface(Buyer &buyer);
 
@@ -81,7 +81,7 @@ int main()
 			{
 				system("cls");
 
-				Buyer* current_buyer = dynamic_cast<Buyer*>(logIn(&buyers_repos));
+				std::shared_ptr<Buyer> current_buyer = std::dynamic_pointer_cast<Buyer>(logIn(&buyers_repos));
 				if (current_buyer == nullptr)
 					break;
 				
@@ -92,7 +92,7 @@ int main()
 			case 2:
 			{
 				system("cls");
-				Seller* current_seller = dynamic_cast<Seller*>(logIn(&sellers_repos));
+				std::shared_ptr<Seller> current_seller = std::dynamic_pointer_cast<Seller>(logIn(&sellers_repos));
 				if (current_seller == nullptr)
 					break;
 
@@ -121,7 +121,7 @@ int main()
 			case 1:
 			{
 				system("cls");
-				Buyer* current_buyer = dynamic_cast<Buyer*>(signUp(&buyers_repos, buyers_file));
+				std::shared_ptr<Buyer> current_buyer = std::dynamic_pointer_cast<Buyer>(signUp(&buyers_repos, buyers_file));
 				if (current_buyer == nullptr)
 					break;
 
@@ -132,7 +132,7 @@ int main()
 			case 2:
 			{
 				system("cls");
-				Seller* current_seller = dynamic_cast<Seller*>(signUp(&sellers_repos, sellers_file));
+				std::shared_ptr<Seller> current_seller = std::dynamic_pointer_cast<Seller>(signUp(&sellers_repos, sellers_file));
 				if (current_seller == nullptr)
 					break;
 
@@ -150,13 +150,12 @@ int main()
 	}
 }
 
-User* logIn(IUsersContainer* container)
+std::shared_ptr<User> logIn(IUsersContainer* container)
 {
-	User* user = nullptr;
+	std::shared_ptr<User> user;
 
 	bool dataCorrectness = false;
-	while (!dataCorrectness)
-	{
+	do{
 		std::cout << "Login: ";
 		std::string login;
 		std::cin >> login;
@@ -165,7 +164,7 @@ User* logIn(IUsersContainer* container)
 		std::string password;
 		std::cin >> password;
 
-		user = container->findByLoginAndPassword(login, password).get();
+		user = container->findByLoginAndPassword(login, password);
 		if (user == nullptr)
 		{
 			system("cls");
@@ -181,16 +180,15 @@ User* logIn(IUsersContainer* container)
 				system("cls");
 				continue;
 			}
-			else
-				break;
+			else { break; }
 		}
-		else
-			break;
-	}
+		else { break; }
+	} while (true);
+
 	return user;
 }
 
-User* signUp(IUsersContainer* container, std::string filename)
+std::shared_ptr<User> signUp(IUsersContainer* container, std::string filename)
 {
 	bool dataCorrectness = false;
 	while (!dataCorrectness)
@@ -229,7 +227,7 @@ User* signUp(IUsersContainer* container, std::string filename)
 
 		if (dynamic_cast<SellersContainer*>(container))
 		{
-			Seller* user = new Seller;
+			std::shared_ptr<Seller> user = std::make_shared<Seller>();
 
 			user->setLogin(login);
 
@@ -271,13 +269,13 @@ User* signUp(IUsersContainer* container, std::string filename)
 			std::cin >> sertificate_number;
 			user->setSertificateNumber(sertificate_number);
 
-			container->addUserIntoContainerAndFile(std::make_shared<Seller>(*user), filename);
+			container->addUserIntoContainerAndFile(user, filename);
 			return user;
 		}
 		
 		else 
 		{
-			Buyer* user = new Buyer;
+			std::shared_ptr<Buyer> user = std::make_shared<Buyer>();
 
 			user->setLogin(login);
 
@@ -314,7 +312,7 @@ User* signUp(IUsersContainer* container, std::string filename)
 			std::cin >> city;
 			user->setCity(city);
 
-			container->addUserIntoContainerAndFile(std::make_shared<Buyer>(*user), filename);
+			container->addUserIntoContainerAndFile(user, filename);
 			return user;
 		}
 	}
@@ -376,7 +374,7 @@ void BuyerInterface(Buyer& buyer)
 				std::cout << "You have no transactions.\n"
 					<< "Press Enter to continue.\n";
 				std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-				std::cin.clear();
+
 				std::cin.get();
 				break;
 			}
@@ -497,7 +495,47 @@ void SellerInterface(Seller& seller)
 		case 2:
 		{
 			system("cls");
+			VehiclesContainer seller_container = vehicles_repos.findBySellerId(seller.getId());
 
+			bool exit_loop = false;
+			for (auto iter = seller_container.begin(); iter != seller_container.end() && !exit_loop; iter++)
+			{
+				system("cls");
+				(*iter)->printAllInformation();
+
+				std::cout << "\n\n1. View next\n"
+					<< "2. Delete\n"
+					<< "0. Stop viewing\n\n"
+					<< "Your decisinon: ";
+
+				int next_actions;
+				std::cin >> next_actions;
+
+				switch (next_actions)
+				{
+				case 1: break;
+				case 2:
+				{
+					system("cls");
+
+					std::cout << "Are you sure to delete this advertisement?\n"
+						<< "1. Yes\n"
+						<< "0. No\n"
+						<< "Your decisinon: ";
+
+					int deleting;
+					std::cin >> deleting;
+					if (deleting)
+					{
+						vehicles_repos.removeFromContainerAndFileById((*iter)->getId(), vehicles_file);
+						break;
+					}
+					else
+						break;
+				}
+				case 0: exit_loop = true; break;
+				}
+			}
 			break;
 		}
 		case 3:
@@ -514,50 +552,68 @@ void SellerInterface(Seller& seller)
 			int vehicle_type;
 			std::cin >> vehicle_type;
 
+			system("cls");
+			std::cout << "Fill in the information about the car.\n\n";
 			switch (vehicle_type)
 			{
 			case 1:
 			{
-				system("cls");
-				std::cout << "Fill in the information about the car.\n\n";
 				ElectricCar electric_car;
 				std::cin >> electric_car;
 
 				electric_car.setSellerId(seller.getId());
 				vehicles_repos.addVehicleIntoContainerAndFile(std::make_shared<ElectricCar>(electric_car), vehicles_file);
+
+				system("cls");
+				std::cout << "A new advetrisement was successfully added.\n"
+					<< "Press Enter to continue.\n";
+				std::cin.ignore();
+				std::cin.get();
 				break;
 			}
 			case 2:
 			{
-				system("cls");
-				std::cout << "Fill in the information about the car.\n\n";
 				GasolineCar gasoline_car;
 				std::cin >> gasoline_car;
 
 				gasoline_car.setSellerId(seller.getId());
 				vehicles_repos.addVehicleIntoContainerAndFile(std::make_shared<GasolineCar>(gasoline_car), vehicles_file);
+
+				system("cls");
+				std::cout << "A new advetrisement was successfully added.\n"
+					<< "Press Enter to continue.\n";
+				std::cin.ignore();
+				std::cin.get();
 				break;
 			}
 			case 3:
 			{
-				system("cls");
-				std::cout << "Fill in the information about the car.\n\n";
 				Truck truck;
 				std::cin >> truck;
 
 				truck.setSellerId(seller.getId());
 				vehicles_repos.addVehicleIntoContainerAndFile(std::make_shared<Truck>(truck), vehicles_file);
+
+				system("cls");
+				std::cout << "A new advetrisement was successfully added.\n"
+					<< "Press Enter to continue.\n";
+				std::cin.ignore();
+				std::cin.get();
 				break;
 			}
 			case 4:
 			{
-				system("cls");
-				std::cout << "Fill in the information about the car.\n\n";
 				PassengerTransport passenger_transport;
 				std::cin >> passenger_transport;
 
 				passenger_transport.setSellerId(seller.getId());
 				vehicles_repos.addVehicleIntoContainerAndFile(std::make_shared<PassengerTransport>(passenger_transport), vehicles_file);
+
+				system("cls");
+				std::cout << "A new advetrisement was successfully added.\n"
+					<< "Press Enter to continue.\n";
+				std::cin.ignore();
+				std::cin.get();
 				break;
 			}
 			case 0: break;
@@ -568,7 +624,48 @@ void SellerInterface(Seller& seller)
 		{
 			system("cls");
 
+			std::map<int, std::vector<int>> seller_offers;
+			transactions_repos.findBySellerId(seller.getId(), seller_offers);
+
+			int number_of_offers = 0;
+			for (auto iter = seller_offers.begin(); iter != seller_offers.end(); iter++)
+			{
+				number_of_offers += iter->second.size();
+			}
+
+			std::cout << "For now, you have " << number_of_offers << " purchase offers of the following vehicles:\n\n";
+
+			for (auto iter = seller_offers.begin(); iter != seller_offers.end(); iter++)
+			{
+				vehicles_repos.findById(iter->first)->printBriefInformation();
+			}
+
+			std::cout << "\n1. Cancel all offers of some vehicle\n"
+				<< "2. View potential buyers of some vehicle\n"
+				<< "0. Go back\n\n"
+				<< "Your decision: ";
 			
+			int next_step;
+			std::cin >> next_step;
+
+			switch(next_step)
+			{
+			case 1:
+			{
+				std::cout << "\nChoose vehicle by id to cancele offers: ";
+				int vehicle_id_to_cancel;
+				std::cin >> vehicle_id_to_cancel;
+
+				break;
+			}
+			case 2:
+			{
+
+				break;
+			}
+			case 0: break;
+			}
+
 			break;
 		}
 		case 5:
@@ -646,7 +743,7 @@ void goThroughAdvertisements(Buyer& buyer)
 				std::cout << "Unfortunately, no advertisement for your query.\n"
 					<< "Press Enter to continue.\n";
 				std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-				std::cin.clear();
+
 				std::cin.get();
 			}
 			else
@@ -687,7 +784,7 @@ void goThroughAdvertisements(Buyer& buyer)
 				std::cout << "Unfortunately, no advertisement for your query.\n"
 					<< "Press Enter to continue.\n";
 				std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-				std::cin.clear();
+
 				std::cin.get();
 			}
 			else
@@ -726,7 +823,7 @@ void goThroughAdvertisements(Buyer& buyer)
 				std::cout << "Unfortunately, no advertisement for your query.\n"
 					<< "Press Enter to continue.\n";
 				std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-				std::cin.clear();
+
 				std::cin.get();
 			}
 			else

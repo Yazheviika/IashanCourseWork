@@ -101,6 +101,7 @@ std::istream& operator>>(std::istream& stream, PassengerTransport& passenger_tra
 {
 	std::cout << "Model: ";
 	std::string input_string;
+	std::cin.ignore();
 	std::getline(stream, input_string);
 	passenger_transport.setModel(input_string);
 
@@ -110,6 +111,7 @@ std::istream& operator>>(std::istream& stream, PassengerTransport& passenger_tra
 	passenger_transport.setPriceInUAH(input_number);
 
 	std::cout << "Color: ";
+	std::cin.ignore();
 	std::getline(stream, input_string);
 	passenger_transport.setColor(input_string);
 
@@ -118,6 +120,7 @@ std::istream& operator>>(std::istream& stream, PassengerTransport& passenger_tra
 	passenger_transport.setYearOfManufacture(input_number);
 
 	std::cout << "Condition (excellent/good/ok/bad): ";
+	std::cin.ignore();
 	std::getline(stream, input_string);
 	passenger_transport.setCondition(input_string);
 

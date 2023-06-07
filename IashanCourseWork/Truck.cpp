@@ -99,6 +99,7 @@ void Truck::getDataFromString(std::string string)
 std::istream& operator>>(std::istream& stream, Truck& truck) {
 	std::cout << "Model: ";
 	std::string input_string;
+	std::cin.ignore();
 	std::getline(stream, input_string);
 	truck.setModel(input_string);
 
@@ -108,6 +109,7 @@ std::istream& operator>>(std::istream& stream, Truck& truck) {
 	truck.setPriceInUAH(input_number);
 
 	std::cout << "Color: ";
+	std::cin.ignore();
 	std::getline(stream, input_string);
 	truck.setColor(input_string);
 
@@ -116,6 +118,7 @@ std::istream& operator>>(std::istream& stream, Truck& truck) {
 	truck.setYearOfManufacture(input_number);
 
 	std::cout << "Condition (excellent/good/ok/bad): ";
+	std::cin.ignore();
 	std::getline(stream, input_string);
 	truck.setCondition(input_string);
 

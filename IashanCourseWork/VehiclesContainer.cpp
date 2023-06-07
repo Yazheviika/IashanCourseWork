@@ -352,6 +352,21 @@ VehiclesContainer VehiclesContainer::findByType(VehicleTypes type) const
 	return subcontainer;
 }
 
+VehiclesContainer VehiclesContainer::findBySellerId(int seller_id) const
+{
+	VehiclesContainer subcontainer;
+	for (auto iter = begin(); iter != end(); iter++)
+	{
+		if ((*iter)->getSellerId() == seller_id)
+		{
+			std::shared_ptr<Vehicle> new_ptr;
+			(*iter)->clone(new_ptr);
+			subcontainer.push_back(new_ptr);
+		}
+	}
+	return subcontainer;
+}
+
 int VehiclesContainer::findMaxId() const
 {
 	int maxId = 1;

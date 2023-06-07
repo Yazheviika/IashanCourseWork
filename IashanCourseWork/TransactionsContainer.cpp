@@ -253,7 +253,7 @@ void TransactionsContainer::findBySellerId(int seller_id, std::map<int, std::vec
 {
 	for (auto iter = begin(); iter != end(); iter++)
 	{
-		if ((*iter)->getSellerId() == seller_id)
+		if ((*iter)->getSellerId() == seller_id && (*iter)->getStatus() == TransactionStatus::Pending) 
 		{
 			int vehicle_id = (*iter)->getVehicleId();
 			int buyer_id = (*iter)->getBuyerId();

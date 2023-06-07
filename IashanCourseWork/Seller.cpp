@@ -63,8 +63,8 @@ void Seller::printAllInformation()
 
 std::istream& operator>>(std::istream& stream, Seller& seller) {
     std::string token;
-
-    getline(stream, token, ',');
+	
+	std::getline(stream, token, ',');
     seller.setId(std::stoi(token));
 
     std::getline(stream, token, ',');
