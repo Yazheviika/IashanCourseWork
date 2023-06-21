@@ -25,7 +25,7 @@ public:
 
 	void setCargoCapacityInTons(int cargo_capacity);
 
-	virtual void printAllInformation() override;
+	void printAllInformation() override;
 
 	void clone(std::shared_ptr<Vehicle>& newVehicle) const override;
 

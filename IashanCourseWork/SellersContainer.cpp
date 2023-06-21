@@ -38,10 +38,8 @@ SellersContainer::SellersContainer(std::string filename)
 	int index = 0;
 	while (std::getline(file_to_read, line))
 	{
-		std::istringstream stringAsStream(line);
-
 		Seller seller;
-		stringAsStream >> seller;////////////////////////////
+		seller.getDataFromString(line);
 
 		data[index] = std::make_shared<Seller>(seller);
 		index++;

@@ -50,8 +50,20 @@ public:
 
 	std::shared_ptr<Transaction> findByBuyerAndVehicleId(int buyer_id, int vehicle_id);
 
-	TransactionsContainer findByBuyerId(int buyer_id);
+	void setStatusInContainerAndFileByBuyerAndVehicleId(int buyer_id, int vehicle_id, TransactionStatus new_status, std::string filename);
 
-	void findBySellerId(int seller_id, std::map<int, std::vector<int>>& result);
+	void cancelAllTransactionsByVehicleId(int vehicle_id, std::string filename);
+
+	TransactionsContainer findActiveByBuyerId(int buyer_id);
+
+	TransactionsContainer findSoldByBuyerId(int buyer_id);
+
+	TransactionsContainer findSoldBySellerId(int seller_id);
+
+	void findSoldVehiclesBySellerId(int seller_id, std::vector<int>& result);
+
+	void findActiveBySellerId(int seller_id, std::map<int, std::vector<int>>& result);
+
+	bool isSold(int vehicle_id);
 };
 

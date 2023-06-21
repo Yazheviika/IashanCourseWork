@@ -28,7 +28,7 @@ public:
 
 	void setCity(std::string city);
 
-	friend std::istream& operator>>(std::istream& is, Buyer& buyer);
+	void getDataFromString(std::string string) override;
 
 	void addIntoFile(std::string filename) const override;
 

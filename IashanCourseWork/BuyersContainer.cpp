@@ -41,7 +41,7 @@ BuyersContainer::BuyersContainer(std::string filename)
 		std::istringstream stringAsStream(line);
 
 		Buyer buyer;
-		stringAsStream >> buyer;//////////////////////////////////////////////
+		buyer.getDataFromString(line);
 
 		data[index] = std::make_shared<Buyer>(buyer);
 		index++;

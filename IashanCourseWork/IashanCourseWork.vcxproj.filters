@@ -90,6 +90,9 @@
     <ClCompile Include="VehiclesContainer.cpp">
       <Filter>Source Files\Containers</Filter>
     </ClCompile>
+    <ClCompile Include="IUserContainer.cpp">
+      <Filter>Source Files\Containers</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BaseEntity.h">
@@ -125,7 +128,7 @@
     <ClInclude Include="Transaction.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="VehicleTypes.h">
+    <ClInclude Include="VehicleType.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="BuyersContainer.h">

@@ -19,8 +19,6 @@ private:
 public:
 	Transaction(int buyer_id = 0, int seller_id = 0, int vehicle_id = 0, int Status = 1);
 
-	Transaction(const Buyer &buyer, const Seller &seller, const Vehicle &vehicle, TransactionStatus status = TransactionStatus::Pending);
-
 	int getBuyerId() const;
 
 	int getSellerId() const;
@@ -37,11 +35,13 @@ public:
 
 	void setStatus(TransactionStatus Status);
 
+	void rewriteInFile(std::string filename);
+
 	void addIntoFile(std::string filename) const;
 
 	void deleteFromFile(std::string filename) const;
 
-	void readDataFromFileString(std::string string_to_tokenize);
+	void readDataFromFileString(std::string string);
 
 	friend std::ostream& operator<<(std::ostream& out, const Transaction& transaction);
 };

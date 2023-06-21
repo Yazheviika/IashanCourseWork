@@ -25,4 +25,7 @@ public:
 	virtual std::shared_ptr<User> findByLogin(std::string login) = 0;
 
 	virtual std::shared_ptr<User> findByLoginAndPassword(std::string login, std::string password) = 0;
+
+	virtual ~IUsersContainer() = 0;
 };
+

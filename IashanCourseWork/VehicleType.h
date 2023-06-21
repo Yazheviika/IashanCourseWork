@@ -1,6 +1,6 @@
 #pragma once
 
-enum class VehicleTypes
+enum class VehicleType
 {
 	ElectricCar = 1,
 	GasolineCar,

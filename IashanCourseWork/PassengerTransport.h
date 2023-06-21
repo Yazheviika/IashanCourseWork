@@ -24,7 +24,7 @@ public:
 
 	void setPassengerCapacity(int passenger_capacity);
 
-	virtual void printAllInformation() override;
+	void printAllInformation() override;
 
 	void clone(std::shared_ptr<Vehicle>& newVehicle) const override;
 

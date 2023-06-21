@@ -35,7 +35,7 @@ public:
 
 	void addIntoFile(std::string filename) const override;
 
-	friend std::istream& operator>>(std::istream& is, Seller& seller);
+	void getDataFromString(std::string string) override;
 
 	virtual void printAllInformation() override;
 };

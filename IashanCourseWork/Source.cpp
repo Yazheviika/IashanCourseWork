@@ -333,8 +333,9 @@ void BuyerInterface(Buyer& buyer)
 		std::cout << "Actions you can perform: \n"
 			<< "1. View full account info\n"
 			<< "2. View advertisements\n"
-			<< "3. View transactions\n"
-			<< "4. Delete account\n"
+			<< "3. View successful transactions\n"
+			<< "4. View active transactions\n"
+			<< "5. Delete account\n"
 			<< "0. Log out\n\n"
 			<< "Your decisinon: ";
 
@@ -364,20 +365,56 @@ void BuyerInterface(Buyer& buyer)
 		case 3:
 		{
 			system("cls");
-			std::cout << "Your transactions are: \n\n";
-
-			TransactionsContainer current_buyer_transactions = transactions_repos.findByBuyerId(buyer.getId());
+			
+			TransactionsContainer current_buyer_transactions = transactions_repos.findSoldByBuyerId(buyer.getId());
 
 			if (current_buyer_transactions.getLength() == 0)
 			{
 				system("cls");
-				std::cout << "You have no transactions.\n"
+				std::cout << "You have no successful transactions.\n"
 					<< "Press Enter to continue.\n";
 				std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 
 				std::cin.get();
 				break;
 			}
+
+			std::cout << "Congratulations on your purchases!\n\n"
+				<< "Your successful transactions are: \n\n";
+
+			for (auto iter = current_buyer_transactions.begin(); iter != current_buyer_transactions.end(); iter++)
+			{	
+				std::cout << "Vehicle: ";
+				vehicles_repos.findById((*iter)->getVehicleId())->printBriefInformation();
+				std::cout << "Seller: ";
+				sellers_repos.findById((*iter)->getSellerId())->printBriefInformation();
+				std::cout << '\n';
+			}
+			
+			std::cout << "Press Enter to continue.\n";
+			std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+
+			std::cin.get();
+			break;
+		}
+		case 4:
+		{
+			system("cls");
+
+			TransactionsContainer current_buyer_transactions = transactions_repos.findActiveByBuyerId(buyer.getId());
+
+			if (current_buyer_transactions.getLength() == 0)
+			{
+				system("cls");
+				std::cout << "You have no active transactions.\n"
+					<< "Press Enter to continue.\n";
+				std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+
+				std::cin.get();
+				break;
+			}
+
+			std::cout << "Your active transactions are: \n\n";
 
 			int max_on_the_page = 0;
 			for (auto iter = current_buyer_transactions.begin(); iter != current_buyer_transactions.end(); iter++)
@@ -401,9 +438,7 @@ void BuyerInterface(Buyer& buyer)
 
 				std::cout << "-----------Transaction #" << max_on_the_page << '\n';
 
-				if ((*iter)->getStatus() == TransactionStatus::Sold)
-					std::cout << "Congratulations on your purchase!\n";
-				else if((*iter)->getStatus() == TransactionStatus::Pending)
+				if((*iter)->getStatus() == TransactionStatus::Pending)
 					std::cout << "Seller will contact you.\n";
 				else
 					std::cout << "Unfortunately, this transaction was canceled.\n";
@@ -426,7 +461,7 @@ void BuyerInterface(Buyer& buyer)
 
 			break;
 		}
-		case 4: 
+		case 5: 
 		{
 			system("cls");
 
@@ -469,7 +504,8 @@ void SellerInterface(Seller& seller)
 			<< "2. View active advertisements\n"
 			<< "3. Add new advertisement\n"
 			<< "4. View purchase offers\n"
-			<< "5. Delete account\n"
+			<< "5. View successfully sold vehicles\n"
+			<< "6. Delete account\n"
 			<< "0. Log out\n\n"
 			<< "Your decisinon: ";
 
@@ -625,7 +661,16 @@ void SellerInterface(Seller& seller)
 			system("cls");
 
 			std::map<int, std::vector<int>> seller_offers;
-			transactions_repos.findBySellerId(seller.getId(), seller_offers);
+			transactions_repos.findActiveBySellerId(seller.getId(), seller_offers);
+
+			if (seller_offers.size() == 0)
+			{
+				std::cout << "You don't have active transactions.\n";
+				std::cout << "\nPress Enter to go to the main menu.\n";
+				std::cin.ignore();
+				std::cin.get();
+				break;
+			}
 
 			int number_of_offers = 0;
 			for (auto iter = seller_offers.begin(); iter != seller_offers.end(); iter++)
@@ -640,35 +685,145 @@ void SellerInterface(Seller& seller)
 				vehicles_repos.findById(iter->first)->printBriefInformation();
 			}
 
-			std::cout << "\n1. Cancel all offers of some vehicle\n"
-				<< "2. View potential buyers of some vehicle\n"
-				<< "0. Go back\n\n"
+			std::cout << "\nEnter vehicle id to view its potential buyers\n"//нужна проверка на айди
+				<< "or enter 0 to go back\n\n"
 				<< "Your decision: ";
 			
 			int next_step;
 			std::cin >> next_step;
 
-			switch(next_step)
-			{
-			case 1:
-			{
-				std::cout << "\nChoose vehicle by id to cancele offers: ";
-				int vehicle_id_to_cancel;
-				std::cin >> vehicle_id_to_cancel;
-
+			if (next_step == 0)
 				break;
-			}
-			case 2:
-			{
 
-				break;
+			int vehicle_id = next_step;
+
+			std::shared_ptr<Vehicle> vehicle = vehicles_repos.findById(vehicle_id);
+
+			while (true)
+			{
+				transactions_repos.findActiveBySellerId(seller.getId(), seller_offers);
+				if (seller_offers.size() == 0)
+				{
+					system("cls");
+					std::cout << "You don't have active transactions.\n";
+					std::cout << "\nPress Enter to go to the main menu.\n";
+					std::cin.get();
+					break;
+				}
+
+				if (seller_offers.find(next_step) == seller_offers.end())
+					break;
+
+				std::vector<int> potential_buyers = seller_offers.find(next_step)->second;
+				system("cls");
+
+				vehicle->printBriefInformation();
+
+				std::cout << "\nPotential buyers: \n\n";
+
+				for (auto iter = potential_buyers.begin(); iter != potential_buyers.end(); iter++)
+				{
+					buyers_repos.findById(*iter)->printBriefInformation();
+				}
+
+				std::cout << "\nChoose actions to do: \n"
+					<< "1. View full buyer account info\n"
+					<< "2. Make a deal with a buyer\n"
+					<< "3. Cancel transaction with some buyer\n"
+					<< "0. Go back\n\n"
+					<< "Your decisinon: ";
+
+				int action;
+				std::cin >> action;
+
+				if (action == 0)
+					break;
+
+				std::cout << "Enter buyer id: ";
+				int buyer_id;
+				std::cin >> buyer_id;
+
+				if (action == 1)
+				{
+					system("cls");
+
+					std::cout << "Full information about potential buyer: \n\n";
+					buyers_repos.findById(buyer_id)->printAllInformation();
+
+					std::cout << "\nPress Enter to continue.\n";
+					std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+					std::cin.get();
+				}
+
+				else if (action == 2)
+				{
+					transactions_repos.cancelAllTransactionsByVehicleId(vehicle_id, transactions_file);
+					transactions_repos.setStatusInContainerAndFileByBuyerAndVehicleId(buyer_id, vehicle_id, TransactionStatus::Sold, transactions_file);
+					
+					system("cls");
+					std::cout << vehicle->getModel() << "was sold to " 
+						<< buyers_repos.findById(buyer_id)->getName() << ' '
+						<< buyers_repos.findById(buyer_id)->getSurname();
+					std::cout << "\nAll another offers for this vehice were canceled.\n"
+						<< "\nPress Enter to continue.\n";
+					std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+					std::cin.get();
+				}
+
+				else if (action == 3)
+				{
+					transactions_repos.setStatusInContainerAndFileByBuyerAndVehicleId(buyer_id, vehicle_id, TransactionStatus::Canceled, transactions_file);
+
+					system("cls");
+					std::cout << buyers_repos.findById(buyer_id)->getName() << ' '
+						<< buyers_repos.findById(buyer_id)->getSurname()
+						<< "was sent a refusal to purchase.\n"
+						<< "\nPress Enter to continue.\n";
+					std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+					std::cin.get();
+
+				}
 			}
-			case 0: break;
-			}
+			
 
 			break;
 		}
 		case 5:
+		{
+			system("cls");
+
+			TransactionsContainer current_seller_transactions = transactions_repos.findSoldBySellerId(seller.getId());
+
+			if (current_seller_transactions.getLength() == 0)
+			{
+				system("cls");
+				std::cout << "You have no successfully sold vehicles.\n"
+					<< "Press Enter to continue.\n";
+				std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+
+				std::cin.get();
+				break;
+			}
+
+			std::cout << "Congratulations on your successful sales!\n\n"
+				<< "Your successfully sold vehicles are: \n\n";
+
+			for (auto iter = current_seller_transactions.begin(); iter != current_seller_transactions.end(); iter++)
+			{
+				std::cout << "Vehicle: ";
+				vehicles_repos.findById((*iter)->getVehicleId())->printBriefInformation();
+				std::cout << "Buyer: ";
+				buyers_repos.findById((*iter)->getBuyerId())->printBriefInformation();
+				std::cout << '\n';
+			}
+
+			std::cout << "Press Enter to continue.\n";
+			std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+
+			std::cin.get();
+			break;
+		}
+		case 6:
 		{
 			system("cls");
 
@@ -735,7 +890,7 @@ void goThroughAdvertisements(Buyer& buyer)
 			if (vehicle_type == 0)
 				return;
 
-			search_container = vehicles_repos.findByType(static_cast<VehicleTypes>(vehicle_type));
+			search_container = vehicles_repos.findByType(static_cast<VehicleType>(vehicle_type));
 
 			if (search_container.getLength() == 0)
 			{
@@ -820,7 +975,7 @@ void goThroughAdvertisements(Buyer& buyer)
 			if (search_container.getLength() == 0)
 			{
 				system("cls");
-				std::cout << "Unfortunately, no advertisement for your query.\n"
+				std::cout << "Unfortunately, no active advertisement for your query.\n"
 					<< "Press Enter to continue.\n";
 				std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 
@@ -834,40 +989,58 @@ void goThroughAdvertisements(Buyer& buyer)
 	case 0: return;
 	}
 
+	int sold_vehicles = 0;
 	for (auto iter = search_container.begin(); iter != search_container.end(); iter++)
 	{
-		system("cls");
-		(*iter)->printAllInformation();
-
-		std::cout << "\n\n1. Skip\n"
-			<< "2. Make a purchase request\n"
-			<< "0. Stop search\n\n"
-			<< "Your decisinon: ";
-
-		int next_actions;
-		std::cin >> next_actions;
-
-		switch (next_actions)
-		{
-		case 1: break;
-		case 2:
+		if (transactions_repos.isSold((*iter)->getId()) == false)
 		{
 			system("cls");
+			(*iter)->printAllInformation();
 
-			transactions_repos.addTransactionIntoContainerAndFile(std::make_shared<Transaction>(Transaction(buyer.getId(), (*iter)->getSellerId(), (*iter)->getId())), transactions_file);
-			std::cout << "Your request was sent. The seller will contact you.\n"
-				<< "1. Continue viewing\n"
-				<< "0. Go to the main menu\n"
+			std::cout << "\n\n1. Skip\n"
+				<< "2. Make a purchase request\n"
+				<< "0. Stop search\n\n"
 				<< "Your decisinon: ";
 
-			int continuation;
-			std::cin >> continuation;
-			if (continuation)
-				break;
-			else
-				return;
+			int next_actions;
+			std::cin >> next_actions;
+
+			switch (next_actions)
+			{
+			case 1: break;
+			case 2:
+			{
+				system("cls");
+
+				transactions_repos.addTransactionIntoContainerAndFile(std::make_shared<Transaction>(Transaction(buyer.getId(), (*iter)->getSellerId(), (*iter)->getId())), transactions_file);
+				std::cout << "Your request was sent. The seller will contact you.\n"
+					<< "1. Continue viewing\n"
+					<< "0. Go to the main menu\n"
+					<< "Your decisinon: ";
+
+				int continuation;
+				std::cin >> continuation;
+				if (continuation)
+					break;
+				else
+					return;
+			}
+			case 0: return;
+			}
 		}
-		case 0: return;
+		else
+		{
+			sold_vehicles++;
 		}
+	}
+
+	if (sold_vehicles == search_container.getLength())
+	{
+		system("cls");
+		std::cout << "Unfortunately, no active advertisement for your query.\n"
+			<< "Press Enter to continue.\n";
+		std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+
+		std::cin.get();
 	}
 }

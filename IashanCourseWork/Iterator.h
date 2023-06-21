@@ -7,7 +7,7 @@ class Iterator {
 
 public:
 
-	Iterator(T* first) :current(first) {};
+	Iterator(T* curr) :current(curr) {};
 
 	T& operator+(int n) { return *(current + n); }
 

@@ -132,6 +132,7 @@
     <ClCompile Include="BuyersContainer.cpp" />
     <ClCompile Include="Car.cpp" />
     <ClCompile Include="ElectricCar.cpp" />
+    <ClCompile Include="IUserContainer.cpp" />
     <ClCompile Include="PassengerTransport.cpp" />
     <ClCompile Include="GasolineCar.cpp" />
     <ClCompile Include="Seller.cpp" />
@@ -163,7 +164,7 @@
     <ClInclude Include="User.h" />
     <ClInclude Include="Vehicle.h" />
     <ClInclude Include="VehiclesContainer.h" />
-    <ClInclude Include="VehicleTypes.h" />
+    <ClInclude Include="VehicleType.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

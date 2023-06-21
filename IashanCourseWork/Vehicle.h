@@ -61,7 +61,7 @@ public:
 	
 	void setSellerId(int seller_id);
 
-	virtual void printBriefInformation() override;
+	void printBriefInformation() override;
 
 	virtual void printAllInformation() = 0;
 

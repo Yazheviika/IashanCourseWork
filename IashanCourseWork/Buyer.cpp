@@ -52,33 +52,32 @@ void Buyer::addIntoFile(std::string filename) const
 	file_to_write.close();
 }
 
+void Buyer::getDataFromString(std::string string)
+{
+	std::istringstream string_as_stream(string);
+	std::string token;
 
-std::istream& operator>>(std::istream& stream, Buyer& buyer) {
-    std::string token;
+	getline(string_as_stream, token, ',');
+	setId(std::stoi(token));
 
-    getline(stream, token, ',');
-    buyer.setId(std::stoi(token));
+	std::getline(string_as_stream, token, ',');
+	setName(token);
 
-    std::getline(stream, token, ',');
-    buyer.setName(token);
+	std::getline(string_as_stream, token, ',');
+	setSurname(token);
 
-    std::getline(stream, token, ',');
-    buyer.setSurname(token);
+	std::getline(string_as_stream, token, ',');
+	setLogin(token);
 
-    std::getline(stream, token, ',');
-    buyer.setLogin(token);
+	std::getline(string_as_stream, token, ',');
+	setPassword(token);
 
-    std::getline(stream, token, ',');
-    buyer.setPassword(token);
+	std::getline(string_as_stream, token, ',');
+	setAge(std::stoi(token));
 
-    std::getline(stream, token, ',');
-    buyer.setAge(std::stoi(token));
+	std::getline(string_as_stream, token, ',');
+	setDrivingRecordInYears(std::stoi(token));
 
-    std::getline(stream, token, ',');
-    buyer.setDrivingRecordInYears(std::stoi(token));
-
-    std::getline(stream, token, ',');
-    buyer.setCity(token);
-
-    return stream;
+	std::getline(string_as_stream, token, ',');
+	setCity(token);
 }

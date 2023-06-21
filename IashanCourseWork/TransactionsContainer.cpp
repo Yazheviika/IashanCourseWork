@@ -236,21 +236,73 @@ std::shared_ptr<Transaction> TransactionsContainer::findByBuyerAndVehicleId(int 
 	return nullptr;
 }
 
-TransactionsContainer TransactionsContainer::findByBuyerId(int buyer_id)
+void TransactionsContainer::setStatusInContainerAndFileByBuyerAndVehicleId(int buyer_id, int vehicle_id, TransactionStatus new_status, std::string filename)
+{
+	for (auto iter = begin(); iter != end(); iter++)
+	{
+		if ((*iter)->getBuyerId() == buyer_id && (*iter)->getVehicleId() == vehicle_id)
+		{
+			(*iter)->setStatus(new_status);
+			(*iter)->rewriteInFile(filename);
+			return;
+		}
+	}
+}
+
+void TransactionsContainer::cancelAllTransactionsByVehicleId(int vehicle_id, std::string filename)
+{
+	for (auto iter = begin(); iter != end(); iter++)
+	{
+		if ((*iter)->getVehicleId() == vehicle_id)
+		{
+			(*iter)->setStatus(TransactionStatus::Canceled);
+			(*iter)->rewriteInFile(filename);
+		}
+	}
+}
+
+TransactionsContainer TransactionsContainer::findActiveByBuyerId(int buyer_id)
 {
 	TransactionsContainer found_container;
 
 	for (auto iter = begin(); iter != end(); iter++)
 	{
-		if ((*iter)->getBuyerId() == buyer_id)
+		if ((*iter)->getBuyerId() == buyer_id && (*iter)->getStatus() != TransactionStatus::Sold)
 			found_container.push_back(std::make_shared<Transaction>(**iter));
 	}
 
 	return found_container;
 }
 
-void TransactionsContainer::findBySellerId(int seller_id, std::map<int, std::vector<int>>& result)
+TransactionsContainer TransactionsContainer::findSoldByBuyerId(int buyer_id)
 {
+	TransactionsContainer found_container;
+
+	for (auto iter = begin(); iter != end(); iter++)
+	{
+		if ((*iter)->getBuyerId() == buyer_id && (*iter)->getStatus() == TransactionStatus::Sold)
+			found_container.push_back(std::make_shared<Transaction>(**iter));
+	}
+
+	return found_container;
+}
+
+TransactionsContainer TransactionsContainer::findSoldBySellerId(int seller_id)
+{
+	TransactionsContainer found_container;
+
+	for (auto iter = begin(); iter != end(); iter++)
+	{
+		if ((*iter)->getSellerId() == seller_id && (*iter)->getStatus() == TransactionStatus::Sold)
+			found_container.push_back(std::make_shared<Transaction>(**iter));
+	}
+
+	return found_container;
+}
+
+void TransactionsContainer::findActiveBySellerId(int seller_id, std::map<int, std::vector<int>>& result)
+{
+	result.clear();
 	for (auto iter = begin(); iter != end(); iter++)
 	{
 		if ((*iter)->getSellerId() == seller_id && (*iter)->getStatus() == TransactionStatus::Pending) 
@@ -261,4 +313,28 @@ void TransactionsContainer::findBySellerId(int seller_id, std::map<int, std::vec
 			result[vehicle_id].push_back(buyer_id);
 		}
 	}
+}
+
+void TransactionsContainer::findSoldVehiclesBySellerId(int seller_id, std::vector<int>& result)
+{
+	result.clear();
+	for (auto iter = begin(); iter != end(); iter++)
+	{
+		if ((*iter)->getSellerId() == seller_id && (*iter)->getStatus() == TransactionStatus::Sold)
+		{
+			result.push_back((*iter)->getVehicleId());
+		}
+	}
+}
+
+bool TransactionsContainer::isSold(int vehicle_id)
+{
+	for (auto iter = begin(); iter != end(); iter++)
+	{
+		if ((*iter)->getVehicleId() == vehicle_id && (*iter)->getStatus() == TransactionStatus::Sold)
+		{
+			return true;
+		}
+	}
+	return false;
 }

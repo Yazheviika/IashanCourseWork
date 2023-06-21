@@ -31,7 +31,7 @@ public:
 
 	void setFuelType(std::string type);
 
-	virtual void printAllInformation() override;
+	void printAllInformation() override;
 
 	void clone(std::shared_ptr<Vehicle>& newVehicle) const override;
 

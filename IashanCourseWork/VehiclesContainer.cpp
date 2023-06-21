@@ -302,12 +302,12 @@ VehiclesContainer VehiclesContainer::findByPrice(int min_price, int max_price) c
 	return subcontainer;
 }
 
-VehiclesContainer VehiclesContainer::findByType(VehicleTypes type) const
+VehiclesContainer VehiclesContainer::findByType(VehicleType type) const
 {
 	VehiclesContainer subcontainer;
 	switch (type)
 	{
-	case VehicleTypes::ElectricCar:
+	case VehicleType::ElectricCar:
 	{
 		for (auto iter = begin(); iter != end(); iter++)
 		{
@@ -320,7 +320,7 @@ VehiclesContainer VehiclesContainer::findByType(VehicleTypes type) const
 		}
 		break;
 	}
-	case VehicleTypes::GasolineCar:
+	case VehicleType::GasolineCar:
 	{
 		for (auto iter = begin(); iter != end(); iter++)
 		{
@@ -329,7 +329,7 @@ VehiclesContainer VehiclesContainer::findByType(VehicleTypes type) const
 		}
 		break;
 	}
-	case VehicleTypes::Truck:
+	case VehicleType::Truck:
 	{
 		for (auto iter = begin(); iter != end(); iter++)
 		{
@@ -338,7 +338,7 @@ VehiclesContainer VehiclesContainer::findByType(VehicleTypes type) const
 		}
 		break;
 	}
-	case VehicleTypes::PassengerTransport:
+	case VehicleType::PassengerTransport:
 	{
 		for (auto iter = begin(); iter != end(); iter++)
 		{

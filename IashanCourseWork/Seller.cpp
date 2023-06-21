@@ -61,35 +61,35 @@ void Seller::printAllInformation()
 	std::cout << "Sertificate number: " << std::setw(12) << "" << getSertificateNumber() << std::endl;
 }
 
-std::istream& operator>>(std::istream& stream, Seller& seller) {
-    std::string token;
-	
-	std::getline(stream, token, ',');
-    seller.setId(std::stoi(token));
+void Seller::getDataFromString(std::string string)
+{
+	std::istringstream string_as_stream(string);
+	std::string token;
 
-    std::getline(stream, token, ',');
-    seller.setName(token);
+	getline(string_as_stream, token, ',');
+	setId(std::stoi(token));
 
-    std::getline(stream, token, ',');
-    seller.setSurname(token);
+	std::getline(string_as_stream, token, ',');
+	setName(token);
 
-    std::getline(stream, token, ',');
-    seller.setLogin(token);
+	std::getline(string_as_stream, token, ',');
+	setSurname(token);
 
-    std::getline(stream, token, ',');
-    seller.setPassword(token);
+	std::getline(string_as_stream, token, ',');
+	setLogin(token);
 
-    std::getline(stream, token, ',');
-    seller.setAge(std::stoi(token));
+	std::getline(string_as_stream, token, ',');
+	setPassword(token);
 
-    std::getline(stream, token, ',');
-    seller.setIndividualEnterpreneurNumber(token);
+	std::getline(string_as_stream, token, ',');
+	setAge(std::stoi(token));
 
-    std::getline(stream, token, ',');
-    seller.setCompanyName(token);
+	std::getline(string_as_stream, token, ',');
+	setIndividualEnterpreneurNumber(token);
 
-    std::getline(stream, token, ',');
-    seller.setSertificateNumber(token);
+	std::getline(string_as_stream, token, ',');
+	setCompanyName(token);
 
-    return stream;
+	std::getline(string_as_stream, token, ',');
+	setSertificateNumber(token);
 }

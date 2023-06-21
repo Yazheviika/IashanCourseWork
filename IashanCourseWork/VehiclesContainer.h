@@ -9,7 +9,7 @@
 #include "ElectricCar.h"
 #include "PassengerTransport.h"
 #include "Truck.h"
-#include "VehicleTypes.h"
+#include "VehicleType.h"
 #include "Iterator.h"
 
 class VehiclesContainer
@@ -57,7 +57,7 @@ public:
 
 	VehiclesContainer findByPrice(int min_price, int max_price) const;
 
-	VehiclesContainer findByType(VehicleTypes type) const;
+	VehiclesContainer findByType(VehicleType type) const;
 
 	VehiclesContainer findBySellerId(int seller_id) const;
 
